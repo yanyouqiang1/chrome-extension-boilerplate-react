@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-
+import App from './table'
 
 class Mybtn extends React.Component{
     constructor() {
@@ -23,4 +23,4 @@ class Mybtn extends React.Component{
     }
 }
 
-render(<Mybtn />, window.document.querySelector('#root'));
+render(<App />, window.document.querySelector('#root'));
