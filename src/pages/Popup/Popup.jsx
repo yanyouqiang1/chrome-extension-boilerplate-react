@@ -1,5 +1,4 @@
 import 'antd/dist/antd.css';
-import 'antd/dist/antd.css';
 import {render} from "react-dom";
 
 import {AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
@@ -23,8 +22,8 @@ const items = [
         getItem('Option 3', '3'),
         getItem('Option 4', '4'),
     ]),
-    getItem('Navigation Two', 'sub2', <AppstoreOutlined/>, [
-        getItem('Option 5', '5'),
+    getItem('办公便捷', 'sub2', <AppstoreOutlined/>, [
+        getItem('场景还原', 'tabs.html'),
         getItem('Option 6', '6'),
         getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
     ]),

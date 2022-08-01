@@ -41,7 +41,7 @@ var options = {
         popup: path.join(__dirname, 'src', 'pages', 'Popup', 'Popup.jsx'),
         background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
         contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
-        tabs: path.join(__dirname, 'src', 'pages', 'tabs', 'tabs.tsx'),
+        tabs: path.join(__dirname, 'src', 'pages', 'tabs', 'Tabs.jsx'),
         yml: path.join(__dirname, 'src', 'pages', 'yml', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
