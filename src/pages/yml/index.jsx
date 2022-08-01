@@ -2,35 +2,39 @@ import {Input, Button} from 'antd';
 import {render} from "react-dom";
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
-import {json2yaml, yaml2json} from "./ymlutils";
 import './index.css'
+// import YAML from 'yamljs'
+import YAML from 'yaml'
 
 const {TextArea} = Input;
 
 const App = () => {
-    const [inputText, setInputText] = useState('123')
+    const [inputText, setInputText] = useState('')
     const [outputTest, setOutputText] = useState('')
 
-    function changeInput(e){
+    function changeInput(e) {
         setInputText(e.target.value);
     }
 
     function ymlToJson() {
-        let result = yaml2json(inputText)
-        if (result.error){
-            setOutputText('error');
-        }else{
-            setOutputText(JSON.stringify(result.data))
-        }
+        let result = YAML.parse(inputText)
+
+        // if (result.error){
+        //     setOutputText('error');
+        // }else{
+        //     setOutputText(JSON.stringify(result.data))
+        // }
+        setOutputText(JSON.stringify(result))
     }
 
-    function jsonToYml(){
-        let result = json2yaml(inputText)
-        if (result.error){
-            setOutputText('error');
-        }else {
-            setOutputText(result.data)
-        }
+    function jsonToYml() {
+        let result = JSON.parse(inputText)
+        // if (result.error){
+        //     setOutputText('error');
+        // }else {
+        //     setOutputText(result.data)
+        // }
+        setOutputText(YAML.stringify(result))
     }
     return (
         <>
@@ -45,7 +49,6 @@ const App = () => {
         </>
     )
 };
-
 
 
 render(<App/>, window.document.querySelector('#root'))
