@@ -1,0 +1,11 @@
+#root{
+    text-align: center;
+    width: 1000px;
+    margin: auto;
+}
+
+.btn{
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
