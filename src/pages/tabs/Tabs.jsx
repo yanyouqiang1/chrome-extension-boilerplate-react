@@ -2,10 +2,9 @@ import 'antd/dist/antd.css';
 import {render} from "react-dom";
 
 import {Space, Table, Tag} from 'antd';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Search from "antd/es/input/Search";
-import NewTabs from "./newTabs";
-import NewDialog from "./NewDialog";
+import NewModel from "./NewModel";
 import {getStorage_record_key} from "./ChromeCommon";
 
 const columns = [
@@ -87,23 +86,27 @@ const onSearch=()=>{
 
 }
 
-getStorage_record_key(result=>{
-    console.log("tabsRecord: "+result)
-    if (result){
-        setDatasource(result)
-    }else{
-        setDatasource(data)
-    }
-})
+
 
 const TAB = () => {
     const [datasource,setDatasource] = useState([])
 
 
+    useEffect(()=>{
+        getStorage_record_key(result=>{
+            console.log("tabsRecord: "+result)
+            if (result){
+                setDatasource(result)
+            }else{
+                setDatasource(data)
+            }
+        })
+    },[])
+
 
     return (
         <>
-            <NewDialog />
+            <NewModel />
             <Search
                 placeholder="input search text"
                 allowClear
