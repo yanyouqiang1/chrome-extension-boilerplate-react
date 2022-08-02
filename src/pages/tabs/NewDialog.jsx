@@ -51,10 +51,10 @@ const NewDialog = () => {
 
 
     var tagInput = []
-    const tagsSelected = (key) => {
+    const tagsChange = (key) => {
         console.log("tags: " + key)
-        tagInput.push(key)
-        // selectedTabs = currentTabs[key]
+        tagInput =[]
+        tagInput.push(key.split(','))
     }
 
     const handleOk = () => {
@@ -105,7 +105,7 @@ const NewDialog = () => {
                             width: '100%',
                         }}
                         placeholder="Tags Mode"
-                        onSelect={tagsSelected}
+                        onChange={tagsChange}
                     >
                         {tagOptions}
                     </Select>

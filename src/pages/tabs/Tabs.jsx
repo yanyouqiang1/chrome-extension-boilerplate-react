@@ -6,6 +6,7 @@ import React, {useState} from 'react';
 import Search from "antd/es/input/Search";
 import NewTabs from "./newTabs";
 import NewDialog from "./NewDialog";
+import {getStorage_record_key} from "./ChromeCommon";
 
 const columns = [
     {
@@ -86,19 +87,19 @@ const onSearch=()=>{
 
 }
 
-const tabStoryKey ='tabsRepository'
+getStorage_record_key(result=>{
+    console.log("tabsRecord: "+result)
+    if (result){
+        setDatasource(result)
+    }else{
+        setDatasource(data)
+    }
+})
 
 const TAB = () => {
     const [datasource,setDatasource] = useState([])
 
-    chrome.storage.local.get([tabStoryKey],result=>{
-        console.log(result.tabStoryKey)
-        if (result.tabStoryKey){
-            setDatasource(result.tabStoryKey)
-        }else{
-            setDatasource(data)
-        }
-    })
+
 
     return (
         <>
@@ -111,7 +112,7 @@ const TAB = () => {
                 onSearch={onSearch}
             />
             <br/>
-            <Table columns={columns} dataSource={datasource}/>
+            <Table columns={columns} dataSource={datasource} />
         </>
     )
 }
