@@ -5,6 +5,7 @@ import {Space, Table, Tag} from 'antd';
 import React, {useState} from 'react';
 import Search from "antd/es/input/Search";
 import NewTabs from "./newTabs";
+import NewDialog from "./NewDialog";
 
 const columns = [
     {
@@ -101,7 +102,7 @@ const TAB = () => {
 
     return (
         <>
-            <NewTabs />
+            <NewDialog />
             <Search
                 placeholder="input search text"
                 allowClear
