@@ -5,37 +5,42 @@ import {Space, Table, Tag} from 'antd';
 import React, {useEffect, useState} from 'react';
 import Search from "antd/es/input/Search";
 import NewModel from "./NewModel";
-import {getStorage_record_key} from "./ChromeCommon";
+import {getStorage_record_key, setStorage_record_key} from "../util/ChromeCommon";
+import {arrayInclude} from '../util/arrayutil'
 import TextArea from "antd/es/input/TextArea";
-
-
-
-const onSearch = () => {
-
-}
-
+import TabSearch from "./TabSearch";
+import NewTag from "./NewTag";
+import EditModel from "./EditModel";
+import './tabs.css'
+import {similarity2} from "../util/similarity";
 
 const TAB = () => {
     const [datasource, setDatasource] = useState([])
-    const [fresh,setFresh] = useState(false)
+    const [fresh, setFresh] = useState(false)
 
     useEffect(() => {
         getStorage_record_key(result => {
-            console.log("tabsRecord: " , result)
+            console.log("tabsRecord: ", result)
             result = result ? result : []
-            setDatasource(result)
+
+            setDatasource(result.slice(0,5))
         })
     }, [fresh])
 
     const deleteRecord = (record) => {
-        console.log('delete')
-        // let newSource = datasource.filter(item=>item.title!=record.title)
-        // setDatasource(newSource)
+        if (confirm("确认删除吗?")){
+            let newSource = Object.assign([],datasource)
+            newSource = newSource.filter(s=>s.key!=record.key)
+
+            setDatasource(newSource)
+
+            setStorage_record_key(newSource)
+        }
     }
 
     const columns = [
         {
-            title: 'Name',
+            title: '名称',
             dataIndex: 'name',
             key: 'name',
             render: (text) => <a>{text}</a>,
@@ -44,6 +49,7 @@ const TAB = () => {
             title: '地址',
             dataIndex: 'address',
             key: 'address',
+            render: (text) => <a href={text}>{text.substring(0,30)}</a>
         },
         {
             title: '备注',
@@ -80,29 +86,60 @@ const TAB = () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a>Edit</a>
-                    <a onClick={()=>deleteRecord(record)}>Delete</a>
+                    <EditModel superRefresh={refresh} recordkey={record.key} name={record.name} address={record.address} remark={record.remark} tags={record.tags}/>
+                    <a onClick={() => deleteRecord(record)}>Delete</a>
                 </Space>
             ),
         },
     ];
 
-    const refresh=()=>{
+    //刷新
+    const refresh = () => {
         const refresh = !fresh;
         setFresh(refresh);
     }
+
+    //搜索
+    const search = ({sname,stags}) => {
+        getStorage_record_key(datasource=>{
+            let ss = Object.assign([],datasource)
+            if (stags){
+                ss = ss.filter(datasource=>arrayInclude(datasource.tags,stags))
+            }
+            if (sname){
+                //相似度计算并排序
+                let result = ss.map(data=>{
+                    let val = similarity2(data.name,sname)
+                    if (val>0){
+                        return {
+                            similar: val,
+                            data: data
+                        }
+                    }
+                }).filter(a=>a)
+                ss = result.sort((a,b)=>b.similar-a.similar).map(r=>r.data)
+            }
+            setDatasource(ss)
+        })
+    }
+
+
+
+
     return (
         <>
-            <NewModel superRefresh={refresh}/>
-            <Search
-                placeholder="input search text"
-                allowClear
-                enterButton="Search"
-                size="large"
-                onSearch={onSearch}
-            />
-            <br/>
-            <Table columns={columns} dataSource={datasource}/>
+            <div className="container">
+                <div className="search">
+                    <TabSearch search={search} />
+                </div>
+                <div className="operation">
+                    <NewModel superRefresh={refresh}/>
+                    <NewTag />
+                </div>
+                <div className="table">
+                    <Table columns={columns} dataSource={datasource} pagination={false}/>
+                </div>
+            </div>
         </>
     )
 }

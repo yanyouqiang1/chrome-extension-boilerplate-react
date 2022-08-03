@@ -11,18 +11,19 @@ import {
 } from "../util/ChromeCommon";
 import TagSelect from "./TagSelect";
 
-const NewModel = (props) => {
+const EditModel = (props) => {
+    const {recordkey,name,remark,tags} =  props
     const [form] =Form.useForm()
     //######render data
     //select
     //tab
     const [tabOptions, setTabOptions] = useState([])
 
-
     useEffect(()=>{
         getCurrentTabsNoActive().then(tabs => {
             setTabOptions(tabs);
         })
+
     },[])
 
     //model
@@ -37,20 +38,22 @@ const NewModel = (props) => {
     const handleOk = () => {
         setIsModalVisible(false);
         let formValue = form.getFieldsValue()
-        const  key = randomstring(7);
 
         const record={
-            key: key,
             name: formValue.name,
-            address: tabOptions[formValue.tab].url,
             remark: formValue.remark,
             tags: formValue.tags
         }
         //save
         getStorage_record_key(records => {
-            records = records ? records : []
-            records.unshift(record)
-            setStorage_record_key(records)
+            let newRecords = Object.assign([],records)
+            let findRecord = newRecords.find(r=>r.key ==recordkey)
+
+            findRecord.name = record.name
+            findRecord.remark = record.remark
+            findRecord.tags = record.tags
+
+            setStorage_record_key(newRecords)
             //刷新主界面
             props.superRefresh()
         })
@@ -61,18 +64,11 @@ const NewModel = (props) => {
     return (
         <>
             <Button type="link" onClick={showModal}>
-                新建记录
+                Edit
             </Button>
-            <Modal title="新建记录" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="修改记录" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form layout="horizontal" form={form}>
-                    <Form.Item label="选择一个URL" name="tab">
-                        <Select>
-                            {tabOptions.map((tab,index) =>
-                                <Select.Option value={index} key={tab.index}>{tab.title}</Select.Option>
-                            )}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="名称" name="name" rules={[
+                    <Form.Item label="名称" name="name" initialValue={name}  rules={[
                         {
                             required: true,
                             message: 'Please input title!',
@@ -80,10 +76,10 @@ const NewModel = (props) => {
                     ]}>
                         <input  style={{width: '100%'}}/>
                     </Form.Item>
-                    <Form.Item label="备注" name="remark">
+                    <Form.Item label="备注" name="remark" initialValue={remark}>
                         <TextArea rows={4} />
                     </Form.Item>
-                    <Form.Item label="选择标签" name="tags">
+                    <Form.Item label="选择标签" name="tags" initialValue={tags}>
                         <TagSelect />
                     </Form.Item>
                 </Form>
@@ -92,4 +88,4 @@ const NewModel = (props) => {
     );
 };
 
-export default NewModel;
+export default EditModel;

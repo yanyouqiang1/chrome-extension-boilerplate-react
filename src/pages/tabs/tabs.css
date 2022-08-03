@@ -1,0 +1,14 @@
+.container{
+    width: 100%;
+    margin: auto;
+}
+.search{
+    margin: auto;
+    width: 65%;
+    text-align: center;
+    padding: 10px;
+}
+
+.operation{
+    float: right;
+}
