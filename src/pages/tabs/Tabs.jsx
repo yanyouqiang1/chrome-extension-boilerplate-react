@@ -17,19 +17,20 @@ const onSearch = () => {
 
 const TAB = () => {
     const [datasource, setDatasource] = useState([])
+    const [fresh,setFresh] = useState(false)
 
     useEffect(() => {
         getStorage_record_key(result => {
-            console.log("tabsRecord: " + result)
+            console.log("tabsRecord: " , result)
             result = result ? result : []
             setDatasource(result)
         })
-    }, [])
+    }, [fresh])
 
     const deleteRecord = (record) => {
         console.log('delete')
-        let newSource = datasource.filter(item=>item.title!=record.title)
-        setDatasource(newSource)
+        // let newSource = datasource.filter(item=>item.title!=record.title)
+        // setDatasource(newSource)
     }
 
     const columns = [
@@ -86,9 +87,13 @@ const TAB = () => {
         },
     ];
 
+    const refresh=()=>{
+        const refresh = !fresh;
+        setFresh(refresh);
+    }
     return (
         <>
-            <NewModel/>
+            <NewModel superRefresh={refresh}/>
             <Search
                 placeholder="input search text"
                 allowClear

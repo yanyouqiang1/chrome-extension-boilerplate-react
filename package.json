@@ -16,6 +16,7 @@
     "@ant-design/pro-components": "^1.1.14",
     "@hot-loader/react-dom": "^17.0.2",
     "antd": "^4.22.2",
+    "rdm-str": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
