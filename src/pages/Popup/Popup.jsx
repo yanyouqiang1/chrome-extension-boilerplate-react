@@ -18,7 +18,7 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem('常用功能', 'sub1', <MailOutlined/>, [
         getItem('YAML/JSON工具', 'yml.html'),
-        getItem('Option 2', '2'),
+        getItem('BASE64加密', 'base64.html'),
         getItem('Option 3', '3'),
         getItem('Option 4', '4'),
     ]),
