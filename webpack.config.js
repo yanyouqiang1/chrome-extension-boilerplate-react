@@ -41,6 +41,7 @@ var options = {
         background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
         contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
         tabs: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.jsx'),
+        scenario: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.jsx'),
         yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
@@ -204,6 +205,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.html'),
             filename: 'tabs.html',
             chunks: ['tabs'],
+            cache: false,
+        }),
+         new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.html'),
+            filename: 'scenario.html',
+            chunks: ['scenario'],
             cache: false,
         }),
         new HtmlWebpackPlugin({

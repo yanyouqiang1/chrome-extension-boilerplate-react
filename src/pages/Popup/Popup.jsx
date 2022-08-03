@@ -23,8 +23,8 @@ const items = [
         getItem('Option 4', '4'),
     ]),
     getItem('办公便捷', 'sub2', <AppstoreOutlined/>, [
-        getItem('场景还原', 'tabs.html'),
-        getItem('Option 6', '6'),
+        getItem('标签管理', 'tabs.html'),
+        getItem('场景管理', 'scenario.html'),
         getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
