@@ -1,6 +1,6 @@
 import {Select} from "antd";
 import React, {useEffect, useState} from "react";
-import {getStorage_newTabs_tags} from "../util/ChromeCommon";
+import {getStorage_newTabs_tags} from "../../chromeCommon";
 
 
 const TagSelect = (props)=> {

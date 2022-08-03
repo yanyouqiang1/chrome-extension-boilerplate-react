@@ -3,16 +3,16 @@ import {render} from "react-dom";
 
 import {Space, Table, Tag} from 'antd';
 import React, {useEffect, useState} from 'react';
-import Search from "antd/es/input/Search";
 import NewModel from "./NewModel";
-import {getStorage_record_key, setStorage_record_key} from "../util/ChromeCommon";
-import {arrayInclude} from '../util/arrayutil'
-import TextArea from "antd/es/input/TextArea";
+import {getStorage_record_key, setStorage_record_key} from "../../chromeCommon";
+import {arrayInclude} from '../../arrayutil'
 import TabSearch from "./TabSearch";
 import NewTag from "./NewTag";
 import EditModel from "./EditModel";
 import './tabs.css'
-import {similarity2} from "../util/similarity";
+import {similarity2} from "../../similarity";
+
+
 
 const TAB = () => {
     const [datasource, setDatasource] = useState([])
@@ -20,10 +20,9 @@ const TAB = () => {
 
     useEffect(() => {
         getStorage_record_key(result => {
-            console.log("tabsRecord: ", result)
-            result = result ? result : []
-
-            setDatasource(result.slice(0,5))
+            console.log(result)
+            let newDatas = Object.assign([],result)
+            setDatasource(newDatas.slice(0,10))
         })
     }, [fresh])
 

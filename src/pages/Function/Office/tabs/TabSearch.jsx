@@ -1,6 +1,6 @@
 import {Button, Form, Input, Radio, Select} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {getCurrentTabsNoActive, getStorage_newTabs_tags} from "../util/ChromeCommon";
+import {getCurrentTabsNoActive, getStorage_newTabs_tags} from "../../chromeCommon";
 import TagSelect from "./TagSelect";
 
 const TabSearch = (props) => {
@@ -17,7 +17,7 @@ const TabSearch = (props) => {
             form={form}
         >
             <Form.Item label="名称" name="sname">
-                <Input placeholder="input placeholder" autoFocus={true} />
+                <Input placeholder="search" autoFocus={true} />
             </Form.Item>
             <Form.Item label="标签" name="stags">
                 <TagSelect />

@@ -1,13 +1,11 @@
 import { Button, Modal ,Checkbox, Form, Input} from 'antd';
 import React, { useState } from 'react';
-import {getStorage_newTabs_tags, setStorage_newTabs_tags} from "../util/ChromeCommon";
+import {getStorage_newTabs_tags, setStorage_newTabs_tags} from "../../chromeCommon";
 
 
 const App = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [inputTag,setInputTag] = useState('')
-
-
 
     const showModal = () => {
         setIsModalVisible(true);

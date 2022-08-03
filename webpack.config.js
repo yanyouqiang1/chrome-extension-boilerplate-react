@@ -36,13 +36,12 @@ if (fileSystem.existsSync(secretsPath)) {
 var options = {
     mode: process.env.NODE_ENV || 'development',
     entry: {
-        newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.jsx'),
         options: path.join(__dirname, 'src', 'pages', 'Options', 'index.jsx'),
         popup: path.join(__dirname, 'src', 'pages', 'Popup', 'Popup.jsx'),
         background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
         contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
-        tabs: path.join(__dirname, 'src', 'pages', 'tabs', 'Tabs.jsx'),
-        yml: path.join(__dirname, 'src', 'pages', 'yml', 'index.jsx'),
+        tabs: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.jsx'),
+        yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
     },
@@ -187,12 +186,6 @@ var options = {
             ],
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
-            filename: 'newtab.html',
-            chunks: ['newtab'],
-            cache: false,
-        }),
-        new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'pages', 'Options', 'index.html'),
             filename: 'options.html',
             chunks: ['options'],
@@ -217,13 +210,13 @@ var options = {
             cache: false,
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'pages', 'tabs', 'tabs.html'),
+            template: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.html'),
             filename: 'tabs.html',
             chunks: ['tabs'],
             cache: false,
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'pages', 'yml', 'index.html'),
+            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.html'),
             filename: 'yml.html',
             chunks: ['yml'],
             cache: false,

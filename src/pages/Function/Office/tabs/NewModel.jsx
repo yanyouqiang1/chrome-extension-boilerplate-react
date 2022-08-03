@@ -8,7 +8,7 @@ import {
     getStorage_newTabs_tags,
     getStorage_record_key,
     setStorage_record_key
-} from "../util/ChromeCommon";
+} from "../../chromeCommon";
 import TagSelect from "./TagSelect";
 
 const NewModel = (props) => {
