@@ -1,6 +1,6 @@
 import {render} from "react-dom";
-import React, {useEffect, useState} from "react";
-import {Card, List, Col, Divider, Input, Row, Button} from 'antd';
+import React, {useEffect, useRef, useState} from "react";
+import {Card, List, Col, Divider, Input, Row, Button, message} from 'antd';
 import 'antd/dist/antd.css';
 import {getCurrentTabsNoActive, getStorage_scenario, setStorage_scenario} from "../../chromeCommon";
 import TextArea from "antd/es/input/TextArea";
@@ -8,9 +8,11 @@ import Search from "antd/es/input/Search";
 import dayjs from "dayjs";
 import randomstring from "rdm-str";
 import RecordItem from "./RecordItem";
+import {similarity2} from "../../similarity";
 
 
 const Scenario = () => {
+    const saveData = useRef()
     const [datas, setDatas] = useState([])
 
     const initDatas = [{
@@ -29,9 +31,8 @@ const Scenario = () => {
     useEffect(() => {
         getStorage_scenario(result => {
             result = result ? result : initDatas;
-            console.log(result)
-            let newDatas = Object.assign([], result)
-            setDatas(newDatas)
+            setDatas(result)
+            saveData.current = result
         })
     }, [])
 
@@ -63,17 +64,45 @@ const Scenario = () => {
         })
     }
     const saveRecord = (key, title, remark) => {
-        console.log(title)
+        let current = saveData.current;
+        datas.map((data, index) => {
+            if (data.key == key) {
+                current[index].title = title
+                current[index].remark = remark
+            }
+        })
+        setDatas(Object.assign([], current))
+        setStorage_scenario(current)
+        message.success('保存成功', 3);
+
     }
     const deleteRecord = (key) => {
-        getStorage_scenario((records) => {
-            let newRecord = records.filter(re => re.key != key)
-            setStorage_scenario(newRecord)
-            setDatas(newRecord)
-        })
-    }
-    const onSearch = () => {
+        if (confirm("确认删除吗？")) {
+            let current = saveData.current;
+            datas.map((data, index) => {
+                if (data.key == key) {
+                    current.splice(index, 1)
+                }
+            })
 
+            setDatas(Object.assign([], current))
+            setStorage_scenario(current)
+            message.success('删除成功', 3);
+        }
+    }
+    const onSearch = (value) => {
+        let assign = Object.assign([], saveData.current);
+        if (value) {
+            let sort = assign.map(record => {
+                record.count = similarity2(record.title, value)
+                return record
+            })
+                .filter(a => a.count > 0)
+                .sort((a, b) => b.count - a.count);
+            setDatas(sort)
+        } else {
+            setDatas(assign)
+        }
     }
     return (
         <div className="site-card-wrapper" style={{width: '80%', margin: "auto"}}>
@@ -93,7 +122,8 @@ const Scenario = () => {
                 </Col>
                 {
                     datas.map(data =>
-                        <RecordItem key={data.key} dataSource={data} saveRecord={saveRecord} deleteRecord={deleteRecord}/>
+                        <RecordItem key={data.key} dataSource={data} saveRecord={saveRecord}
+                                    deleteRecord={deleteRecord}/>
                     )
                 }
 

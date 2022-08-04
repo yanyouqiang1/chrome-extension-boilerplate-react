@@ -1,7 +1,7 @@
 export function similarity2(s, t) {
     var l = s.length > t.length ? s.length : t.length;
     var d = strSimilarity2Number(s, t);
-    return (1 - d / l).toFixed(4);
+    return parseFloat((1 - d / l).toFixed(4))
 }
 
 function strSimilarity2Number(s, t) {

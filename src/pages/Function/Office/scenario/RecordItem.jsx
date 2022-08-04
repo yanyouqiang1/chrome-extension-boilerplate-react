@@ -1,6 +1,7 @@
-import {Button, Card, Col, Input, List} from "antd";
+import {Button, Card, Col, Collapse, Input, List} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {useEffect, useState} from "react";
+import Panel from "../../../Panel/Panel";
 
 
 const RecordItem = (props) => {
@@ -16,7 +17,7 @@ const RecordItem = (props) => {
         setRTitle(dataSource.title)
         setRremark(dataSource.remark)
         setRData(dataSource)
-    },[])
+    }, [])
 
     const remarkChange = (e) => {
         setRremark(e.target.value)
@@ -33,31 +34,38 @@ const RecordItem = (props) => {
         deleteRecord(dataSource.key)
     }
     return (
-        <Col span={24} style={{marginBottom: 5}}>
+        <Col span={8} style={{marginBottom: 5}}>
             <Card style={{borderColor: "green"}}
-                  title={(<Input placeholder="Borderless" bordered={false} value={rTitle}
+                  title={(<Input bordered={false} value={rTitle}
                                  onChange={nameChange}/>)}
-                  extra={<>
-                      <Button danger type="text" onClick={rdelete}>删除</Button>
-                      <Button type="link" onClick={save}>保存</Button>
-                      <Button type="link">打开全部</Button>
-                  </>
+                  extra={
+                      <>
+                          <Button danger type="text" onClick={rdelete}>删除</Button>
+                          <Button type="link" onClick={save}>保存</Button>
+                          <Button type="link">打开全部</Button>
+                      </>
                   }>
-
+                <span>{dataSource.createTime}</span>
                 <List
                     dataSource={rData.links}
                     renderItem={(item) => (
                         <List.Item>
                             <div>
-                                <a href={item.url}>{item.name}<br/>
-                                    {item.url.substr(0, 80)}
+                                <a href={item.url}>{item.name}
+                                    <span style={{
+                                        fontSize: "smaller",
+                                        marginLeft: 10,
+                                        color: "gray"
+                                    }}>{item.url.substr(0, 50)}</span>
                                 </a>
-                                <button>删除</button>
+                                <Button type="link" danger>删除</Button>
                             </div>
                         </List.Item>
                     )}
                 />
-                <TextArea value={rRemark} style={{marginTop: 5}} onChange={remarkChange} rows={8}/>
+
+                <TextArea value={rRemark} onChange={remarkChange} rows={8}/>
+
             </Card>
         </Col>
     )
