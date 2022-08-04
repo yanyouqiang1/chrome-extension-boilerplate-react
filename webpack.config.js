@@ -43,6 +43,7 @@ var options = {
         tabs: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.jsx'),
         scenario: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.jsx'),
         yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
+        textRecord: path.join(__dirname, 'src', 'pages', 'Function','Usual','textRecord', 'index.jsx'),
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
@@ -227,6 +228,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.html'),
             filename: 'yml.html',
             chunks: ['yml'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','textRecord', 'index.html'),
+            filename: 'textRecord.html',
+            chunks: ['textRecord'],
             cache: false,
         }),
          new HtmlWebpackPlugin({

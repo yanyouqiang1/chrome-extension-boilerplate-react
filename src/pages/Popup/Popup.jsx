@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
 
-import {AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
+import {MailOutlined, SettingOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import React, {useState} from 'react';
 
@@ -16,13 +16,14 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-    getItem('常用功能', 'sub1', <MailOutlined/>, [
+    getItem('办公便捷', 'sub1', <MailOutlined/>, [
+        getItem('链接管理', 'tabs.html'),
+        getItem('场景管理', 'scenario.html'),
+    ]),
+    getItem('常用功能', 'sub2', <SettingOutlined/>, [
         getItem('YAML/JSON工具', 'yml.html'),
         getItem('BASE64加密', 'base64.html'),
-    ]),
-    getItem('办公便捷', 'sub2', <AppstoreOutlined/>, [
-        getItem('标签管理', 'tabs.html'),
-        getItem('场景管理', 'scenario.html'),
+        getItem('文本记录', 'textRecord.html'),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),

@@ -54,3 +54,16 @@ export function getStorage_scenario(callback) {
 export function setStorage_scenario(value) {
     chrome.storage.local.set({newTabs_scenario_key: value})
 }
+
+//######## textRecord
+const newTabs_textRecord_key = 'newTabs_textRecord_key'
+
+export function getStorage_textRecord(callback) {
+    chrome.storage.local.get([newTabs_textRecord_key], result => {
+        callback(result.newTabs_textRecord_key)
+    })
+}
+
+export function setStorage_textRecord(value) {
+    chrome.storage.local.set({newTabs_textRecord_key: value})
+}
