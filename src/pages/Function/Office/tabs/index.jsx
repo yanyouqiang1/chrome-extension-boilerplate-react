@@ -1,8 +1,8 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
 
-import {Space, Table, Tag} from 'antd';
-import React, {useEffect, useState} from 'react';
+import {Button, Col, Row, Space, Table, Tag} from 'antd';
+import React, {useEffect, useRef, useState} from 'react';
 import NewModel from "./NewModel";
 import {getStorage_record_key, setStorage_record_key} from "../../chromeCommon";
 import {arrayInclude} from '../../arrayutil'
@@ -13,27 +13,28 @@ import './tabs.css'
 import {similarity2} from "../../similarity";
 
 
-
 const TAB = () => {
+    const saveData = useRef()
     const [datasource, setDatasource] = useState([])
     const [fresh, setFresh] = useState(false)
 
     useEffect(() => {
         getStorage_record_key(result => {
-            console.log(result)
-            let newDatas = Object.assign([],result)
-            setDatasource(newDatas.slice(0,10))
+            result = result ? result : []
+            saveData.current = result
+            setDatasource(result.slice(0, 10))
         })
     }, [fresh])
 
+
     const deleteRecord = (record) => {
-        if (confirm("确认删除吗?")){
-            let newSource = Object.assign([],datasource)
-            newSource = newSource.filter(s=>s.key!=record.key)
+        if (confirm("确认删除吗?")) {
+            let current = saveData.current;
+            current = current.filter(s => s.key != record.key)
 
-            setDatasource(newSource)
-
-            setStorage_record_key(newSource)
+            saveData.current = current
+            setDatasource(Object.assign([], current))
+            setStorage_record_key(current)
         }
     }
 
@@ -48,7 +49,7 @@ const TAB = () => {
             title: '地址',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => <a href={text}>{text.substring(0,30)}</a>
+            render: (text) => <a href={text}>{text.substring(0, 30)}</a>
         },
         {
             title: '备注',
@@ -62,31 +63,35 @@ const TAB = () => {
             title: 'Tags',
             key: 'tags',
             dataIndex: 'tags',
-            render: (_, {tags}) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
+            render: (_, {tags}) => {
+                tags = tags?tags:[]
+                return (
+                    <>
+                        {tags.map((tag) => {
+                            let color = tag.length > 5 ? 'geekblue' : 'green';
 
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
+                            if (tag === 'loser') {
+                                color = 'volcano';
+                            }
 
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+                            return (
+                                <Tag color={color} key={tag}>
+                                    {tag.toUpperCase()}
+                                </Tag>
+                            );
+                        })}
+                    </>
+                )
+            },
         },
         {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <EditModel superRefresh={refresh} recordkey={record.key} name={record.name} address={record.address} remark={record.remark} tags={record.tags}/>
-                    <a onClick={() => deleteRecord(record)}>Delete</a>
+                    <EditModel superRefresh={refresh} recordkey={record.key} name={record.name} address={record.address}
+                               remark={record.remark} tags={record.tags}/>
+                    <Button type="link" onClick={() => deleteRecord(record)}>Delelte</Button>
                 </Space>
             ),
         },
@@ -99,41 +104,39 @@ const TAB = () => {
     }
 
     //搜索
-    const search = ({sname,stags}) => {
-        getStorage_record_key(datasource=>{
-            let ss = Object.assign([],datasource)
-            if (stags){
-                ss = ss.filter(datasource=>arrayInclude(datasource.tags,stags))
+    const search = ({sname, stags}) => {
+        getStorage_record_key(datasource => {
+            let ss = Object.assign([], datasource)
+            if (stags) {
+                ss = ss.filter(datasource => arrayInclude(datasource.tags, stags))
             }
-            if (sname){
+            if (sname) {
                 //相似度计算并排序
-                let result = ss.map(data=>{
-                    let val = similarity2(data.name,sname)
-                    if (val>0){
+                let result = ss.map(data => {
+                    let val = similarity2(data.name, sname)
+                    if (val > 0) {
                         return {
                             similar: val,
                             data: data
                         }
                     }
-                }).filter(a=>a)
-                ss = result.sort((a,b)=>b.similar-a.similar).map(r=>r.data)
+                }).filter(a => a)
+                ss = result.sort((a, b) => b.similar - a.similar).map(r => r.data)
             }
             setDatasource(ss)
         })
     }
 
 
-
-
     return (
         <>
             <div className="container">
                 <div className="search">
-                    <TabSearch search={search} />
+                    <TabSearch search={search}/>
                 </div>
                 <div className="operation">
                     <NewModel superRefresh={refresh}/>
-                    <NewTag />
+                    <NewTag/>
                 </div>
                 <div className="table">
                     <Table columns={columns} dataSource={datasource} pagination={false}/>
