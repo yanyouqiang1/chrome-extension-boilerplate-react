@@ -3,7 +3,6 @@ import {render} from "react-dom";
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import './index.css'
-// import YAML from 'yamljs'
 import YAML from 'yaml'
 
 const {TextArea} = Input;
@@ -19,21 +18,12 @@ const App = () => {
     function ymlToJson() {
         let result = YAML.parse(inputText)
 
-        // if (result.error){
-        //     setOutputText('error');
-        // }else{
-        //     setOutputText(JSON.stringify(result.data))
-        // }
         setOutputText(JSON.stringify(result))
     }
 
     function jsonToYml() {
         let result = JSON.parse(inputText)
-        // if (result.error){
-        //     setOutputText('error');
-        // }else {
-        //     setOutputText(result.data)
-        // }
+
         setOutputText(YAML.stringify(result))
     }
     return (

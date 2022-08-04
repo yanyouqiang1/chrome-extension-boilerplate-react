@@ -11,54 +11,43 @@ const {Dragger} = Upload;
 
 
 const Base64 = () => {
-    const [content, setContent] = useState({})
+    const [content, setContent] = useState('')
+    const [top, setTop] = useState('')
 
-    const props = {
-        name: 'file',
-        multiple: false,
-        action: '#',
+    const onImportExcel = (file) => {
+        // 创建FileReader 对象读取
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            // 获取文件内容存进tempFile
+            let base64 = reader.result;
 
-        onChange(info) {
-            const {status} = info.file;
-            debugger
-            let fileReader = new FileReader();
-            let content = fileReader.readAsText(info.file)
+            let index = base64.indexOf('base64')+'base64'.length+1
 
+            let top = base64.substr(0,index)
+            let content = base64.substr(index)
 
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
+            setTop(top)
+            setContent(content);
 
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
-        },
-
-        beforeUpload(e) {
-            debugger
-            var data ='';
-            let readerStream = e.stream()
-            readerStream.on('data', function(chunk) {
-                data += chunk;
-            });
-
-            readerStream.on('end',function(){
-                console.log(data);
-            });
-            console.log(data)
-        }
+        };
     };
+
+
+    const uploadProps = {
+        name: 'file',
+        action: '',
+        showUploadList: false,
+        beforeUpload: (file, fileList) => {
+            onImportExcel(file);
+        },
+    };
+
 
 
     return (
         <>
-            <Dragger {...props}>
+            <Dragger {...uploadProps}>
                 <p className="ant-upload-drag-icon">
                     <InboxOutlined/>
                 </p>
@@ -69,7 +58,10 @@ const Base64 = () => {
                 </p>
             </Dragger>
 
-            <TextArea rows={20} disabled={false} value={content}/>
+            <h2>BASE64头部</h2>
+            <input type={"text"} value={top} disabled={true} style={{width:'100%'}}/>
+            <h2>BASE64结果</h2>
+            <TextArea rows={20} disabled={true} value={content} autoSize={true}/>
         </>
     );
 }
