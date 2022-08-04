@@ -8,6 +8,13 @@ export async function getCurrentTabsNoActive() {
     return tabs
 }
 
+export function createUrls(urls){
+    for (const url of urls) {
+        chrome.tabs.create({
+            url: url
+        });
+    }
+}
 
 //######## tabs
 const newTabs_tags_key = 'newTabs_tags_key'

@@ -2,6 +2,7 @@ import {Button, Card, Col, Collapse, Input, List} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {useEffect, useState} from "react";
 import Panel from "../../../Panel/Panel";
+import {createUrls} from "../../chromeCommon";
 
 
 const RecordItem = (props) => {
@@ -33,6 +34,11 @@ const RecordItem = (props) => {
     const rdelete = () => {
         deleteRecord(dataSource.key)
     }
+
+    const openall = () => {
+        let urls = dataSource.links.map(link=>link.url);
+        createUrls(urls)
+    }
     return (
         <Col span={8} style={{marginBottom: 5}}>
             <Card style={{borderColor: "green"}}
@@ -42,7 +48,7 @@ const RecordItem = (props) => {
                       <>
                           <Button danger type="text" onClick={rdelete}>删除</Button>
                           <Button type="link" onClick={save}>保存</Button>
-                          <Button type="link">打开全部</Button>
+                          <Button type="link" onClick={openall}>打开全部</Button>
                       </>
                   }>
                 <span>{dataSource.createTime}</span>
