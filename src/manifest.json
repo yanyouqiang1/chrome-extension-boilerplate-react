@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "我的(yyq)利器",
+  "name": "YYQ利器",
   "description": "for practice",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },

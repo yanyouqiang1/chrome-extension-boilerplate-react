@@ -104,6 +104,18 @@ const Scenario = () => {
             setDatas(assign)
         }
     }
+    const linkDelete=(key,linkIndex)=>{
+        let current = saveData.current;
+        datas.map((data, index) => {
+            if (data.key == key) {
+                current[index].links.splice(linkIndex,1)
+            }
+        })
+
+        setDatas(Object.assign([], current))
+        setStorage_scenario(current)
+        message.success('删除成功', 3);
+    }
     return (
         <div className="site-card-wrapper" style={{width: '80%', margin: "auto"}}>
             <Row gutter={24}>
@@ -123,7 +135,7 @@ const Scenario = () => {
                 {
                     datas.map(data =>
                         <RecordItem key={data.key} dataSource={data} saveRecord={saveRecord}
-                                    deleteRecord={deleteRecord}/>
+                                    deleteRecord={deleteRecord} linkDelete={linkDelete}/>
                     )
                 }
 

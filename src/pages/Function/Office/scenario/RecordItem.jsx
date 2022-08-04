@@ -6,7 +6,7 @@ import {createUrls} from "../../chromeCommon";
 
 
 const RecordItem = (props) => {
-    const {dataSource, saveRecord, deleteRecord} = props
+    const {dataSource, saveRecord, deleteRecord,linkDelete} = props
     // const [data, setData] = useState({})
 
 
@@ -36,8 +36,14 @@ const RecordItem = (props) => {
     }
 
     const openall = () => {
-        let urls = dataSource.links.map(link=>link.url);
+        let urls = dataSource.links.map(link => link.url);
         createUrls(urls)
+    }
+
+    const rlinkDelete = (index) => {
+        if (confirm("确认删除吗？")){
+            linkDelete(dataSource.key,index)
+        }
     }
     return (
         <Col span={8} style={{marginBottom: 5}}>
@@ -54,7 +60,7 @@ const RecordItem = (props) => {
                 <span>{dataSource.createTime}</span>
                 <List
                     dataSource={rData.links}
-                    renderItem={(item) => (
+                    renderItem={(item,index) => (
                         <List.Item>
                             <div>
                                 <a href={item.url}>{item.name}
@@ -64,7 +70,7 @@ const RecordItem = (props) => {
                                         color: "gray"
                                     }}>{item.url.substr(0, 50)}</span>
                                 </a>
-                                <Button type="link" danger>删除</Button>
+                                <Button type="link" danger onClick={()=>rlinkDelete(index)}>删除</Button>
                             </div>
                         </List.Item>
                     )}
