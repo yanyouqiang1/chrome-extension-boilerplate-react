@@ -1,6 +1,6 @@
 import {render} from "react-dom";
 import React, {useEffect, useRef, useState} from "react";
-import {Card, List, Col, Divider, Input, Row, Button, message} from 'antd';
+import {Card, List, Col, Divider, Input, Row, Button, message, Image} from 'antd';
 import 'antd/dist/antd.css';
 import {getCurrentTabsNoActive, getStorage_scenario, setStorage_scenario} from "../../chromeCommon";
 import TextArea from "antd/es/input/TextArea";
