@@ -19,13 +19,10 @@ const items = [
     getItem('常用功能', 'sub1', <MailOutlined/>, [
         getItem('YAML/JSON工具', 'yml.html'),
         getItem('BASE64加密', 'base64.html'),
-        getItem('Option 3', '3'),
-        getItem('Option 4', '4'),
     ]),
     getItem('办公便捷', 'sub2', <AppstoreOutlined/>, [
         getItem('标签管理', 'tabs.html'),
         getItem('场景管理', 'scenario.html'),
-        getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),
