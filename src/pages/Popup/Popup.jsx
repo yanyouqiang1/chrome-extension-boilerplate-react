@@ -24,6 +24,7 @@ const items = [
         getItem('YAML/JSON工具', 'yml.html'),
         getItem('BASE64加密', 'base64.html'),
         getItem('文本记录', 'textRecord.html'),
+        getItem('片段管理', 'fragement.html'),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),

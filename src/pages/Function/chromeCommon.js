@@ -32,8 +32,8 @@ export function getAllStorageData() {
     });
 }
 
-export function updateAllStorageData(object){
-    if (object){
+export function updateAllStorageData(object) {
+    if (object) {
         chrome.storage.local.set(object)
     }
 
@@ -90,4 +90,18 @@ export function getStorage_textRecord(callback) {
 
 export function setStorage_textRecord(value) {
     chrome.storage.local.set({newTabs_textRecord_key: value})
+}
+
+
+//######## textRecord
+const newTabs_fragement_key = 'newTabs_fragement_key'
+
+export function getStorage_fragement(callback) {
+    chrome.storage.local.get([newTabs_fragement_key], result => {
+        callback(result.newTabs_fragement_key)
+    })
+}
+
+export function setStorage_fragement(value) {
+    chrome.storage.local.set({newTabs_fragement_key: value})
 }
