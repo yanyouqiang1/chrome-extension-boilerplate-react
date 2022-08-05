@@ -1,4 +1,4 @@
-import {Button, Card, Col, Collapse, Input, List} from "antd";
+import {Button, Card, Col, Collapse, Input, List, Popover} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {useEffect, useState} from "react";
 import Panel from "../../../Panel/Panel";
@@ -6,7 +6,7 @@ import {createUrls} from "../../chromeCommon";
 
 
 const RecordItem = (props) => {
-    const {dataSource, saveRecord, deleteRecord,linkDelete} = props
+    const {dataSource, saveRecord, deleteRecord, linkDelete} = props
     // const [data, setData] = useState({})
 
 
@@ -41,15 +41,18 @@ const RecordItem = (props) => {
     }
 
     const rlinkDelete = (index) => {
-        if (confirm("确认删除吗？")){
-            linkDelete(dataSource.key,index)
+        if (confirm("确认删除吗？")) {
+            linkDelete(dataSource.key, index)
         }
     }
     return (
         <Col span={8} style={{marginBottom: 5}}>
             <Card style={{borderColor: "green"}}
-                  title={(<Input bordered={false} value={rTitle}
-                                 onChange={nameChange}/>)}
+                  title={
+                      <Popover content={dataSource.createTime} trigger="hover">
+                          <Input bordered={false} value={rTitle}
+                                 onChange={nameChange}/>
+                      </Popover>}
                   extra={
                       <>
                           <Button danger type="text" onClick={rdelete}>删除</Button>
@@ -57,25 +60,19 @@ const RecordItem = (props) => {
                           <Button type="link" onClick={openall}>打开全部</Button>
                       </>
                   }>
-                <span>{dataSource.createTime}</span>
                 <List
                     dataSource={rData.links}
-                    renderItem={(item,index) => (
+                    renderItem={(item, index) => (
                         <List.Item>
                             <div>
-                                <a href={item.url}>{item.name}
-                                    <span style={{
-                                        fontSize: "smaller",
-                                        marginLeft: 10,
-                                        color: "gray"
-                                    }}>{item.url.substr(0, 50)}</span>
-                                </a>
-                                <Button type="link" danger onClick={()=>rlinkDelete(index)}>删除</Button>
+                                <Popover content={item.url} trigger="hover">
+                                    <a href={item.url} style={{fontSize: "xx-small"}}>{item.name}</a>
+                                </Popover>
+                                <Button type="link" danger onClick={() => rlinkDelete(index)}>删除</Button>
                             </div>
                         </List.Item>
                     )}
                 />
-
                 <TextArea value={rRemark} onChange={remarkChange} rows={8}/>
 
             </Card>
