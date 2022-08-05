@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import {Button, Upload} from "antd";
 import 'antd/dist/antd.css';
 import {UploadOutlined} from "@ant-design/icons";
-import {getStorage_record_key} from "../Function/chromeCommon";
+import {getAllStorageData, getStorage_record_key, updateAllStorageData} from "../Function/chromeCommon";
 
 const Options = () => {
 
@@ -20,15 +20,16 @@ const Options = () => {
             reader.readAsText(file);
             reader.onload = () => {
                 console.log(reader.result)
+                updateAllStorageData(JSON.parse(reader.result));
             };
         },
 
     };
 
     const exportConfig = () => {
-        getStorage_record_key(data=>{
-            if (data){
-                download("t.txt",JSON.stringify(data))
+        getAllStorageData().then(datas=>{
+            if (datas){
+                download("yyq-weapon.json",JSON.stringify(datas))
             }
         })
     }

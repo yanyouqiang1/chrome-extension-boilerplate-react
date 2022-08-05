@@ -8,13 +8,37 @@ export async function getCurrentTabsNoActive() {
     return tabs
 }
 
-export function createUrls(urls){
+export function createUrls(urls) {
     for (const url of urls) {
         chrome.tabs.create({
             url: url
         });
     }
 }
+
+//######获取所有的缓存
+export function getAllStorageData() {
+    // Immediately return a promise and start asynchronous work
+    return new Promise((resolve, reject) => {
+        // Asynchronously fetch all data from storage.sync.
+        chrome.storage.local.get(null, (items) => {
+            // Pass any observed errors down the promise chain.
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError);
+            }
+            // Pass the data retrieved from storage down the promise chain.
+            resolve(items);
+        });
+    });
+}
+
+export function updateAllStorageData(object){
+    if (object){
+        chrome.storage.local.set(object)
+    }
+
+}
+
 
 //######## tabs
 const newTabs_tags_key = 'newTabs_tags_key'
