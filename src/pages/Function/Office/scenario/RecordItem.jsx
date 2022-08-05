@@ -1,7 +1,6 @@
 import {Button, Card, Col, Collapse, Input, List, Popover} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {useEffect, useState} from "react";
-import Panel from "../../../Panel/Panel";
 import {createUrls} from "../../chromeCommon";
 
 

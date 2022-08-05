@@ -1,4 +1,4 @@
-import {Input, Button} from 'antd';
+import {Input, Button, Col, Row} from 'antd';
 import {render} from "react-dom";
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
@@ -28,14 +28,20 @@ const App = () => {
     }
     return (
         <>
-            <TextArea rows={20} allowClear value={inputText} onChange={e=>changeInput(e)}/>
-            <br/>
-            <Button  type="primary" className="btn" onClick={()=>ymlToJson()}>YAML转换JSON</Button>
+            <Row gutter={24} type="flex" style={{textAlign: "center"}} justify="center" align="middle">
+                <Col span={9}>
+                    <TextArea rows={30} allowClear value={inputText} onChange={e=>changeInput(e)}/>
+                </Col>
+                <Col span={4}>
+                    <Button  type="primary" onClick={()=>ymlToJson()}>YAML转换JSON</Button>
+                    <br/><br/><br/>
+                    <Button type="dashed" onClick={()=>jsonToYml()}>JSON转换YAML</Button>
+                </Col>
+                <Col span={9}>
+                    <TextArea rows={30} value={outputTest}/>
+                </Col>
+            </Row>
 
-            <Button type="dashed" className="btn" onClick={()=>jsonToYml()}>JSON转换YAML</Button>
-
-            <br/>
-            <TextArea rows={20} value={outputTest}/>
         </>
     )
 };
