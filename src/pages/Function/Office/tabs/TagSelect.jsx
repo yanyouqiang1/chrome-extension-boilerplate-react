@@ -3,18 +3,19 @@ import React, {useEffect, useState} from "react";
 import {getStorage_newTabs_tags} from "../../chromeCommon";
 
 
-const TagSelect = (props)=> {
+const TagSelect = (props) => {
     //数据绑定的关键
-    const { value, onChange } =props
+    const {value, onChange} = props
     //tag
     const [tagOptions, setTagOptions] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         getStorage_newTabs_tags(tagsOfSaved => {
+                tagsOfSaved = tagsOfSaved ? tagsOfSaved : []
                 setTagOptions(tagsOfSaved)
             }
         )
-    },[])
+    }, [])
 
 
     return (
@@ -28,7 +29,7 @@ const TagSelect = (props)=> {
         >
             {tagOptions.map(tag => <Select.Option key={tag}>{tag}</Select.Option>)}
         </Select>
-        )
+    )
 
 }
 

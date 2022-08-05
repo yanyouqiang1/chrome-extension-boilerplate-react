@@ -18,6 +18,7 @@ const TAB = () => {
     const [datasource, setDatasource] = useState([])
     const [fresh, setFresh] = useState(false)
 
+
     useEffect(() => {
         getStorage_record_key(result => {
             result = result ? result : []
@@ -91,7 +92,7 @@ const TAB = () => {
                 <Space size="middle">
                     <EditModel superRefresh={refresh} recordkey={record.key} name={record.name} address={record.address}
                                remark={record.remark} tags={record.tags}/>
-                    <Button type="link" onClick={() => deleteRecord(record)}>Delelte</Button>
+                    <Button type="link" onClick={() => deleteRecord(record)} danger>Delelte</Button>
                 </Space>
             ),
         },
