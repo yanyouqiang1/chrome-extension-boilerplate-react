@@ -67,7 +67,7 @@ const Fragement = () => {
         setStorage_fragement(assign)
     }
     return (
-        <div className="site-card-wrapper" style={{width: "80%", margin: "auto",backgroundColor:"darkgrey"}}>
+        <div className="site-card-wrapper" style={{width: "80%", margin: "auto"}}>
             <Button type={"primary"} style={{float: "right"}} onClick={newData}>NEW</Button>
             <Row gutter={24}>
                 {
