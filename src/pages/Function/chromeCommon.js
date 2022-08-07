@@ -53,7 +53,7 @@ export function setStorage_newTabs_tags(value) {
     chrome.storage.local.set({newTabs_tags_key: value})
 }
 
-
+//######## record
 const newTabs_record_key = 'newTabs_record_key'
 
 export function getStorage_record_key(callback) {
@@ -67,41 +67,55 @@ export function setStorage_record_key(value) {
 }
 
 //######## scenario
-const newTabs_scenario_key = 'newTabs_scenario_key'
+const scenario_key = 'scenario_key'
 
 export function getStorage_scenario(callback) {
-    chrome.storage.local.get([newTabs_scenario_key], result => {
-        callback(result.newTabs_scenario_key)
+    chrome.storage.local.get([scenario_key], result => {
+        callback(result.scenario_key)
     })
 }
 
 export function setStorage_scenario(value) {
-    chrome.storage.local.set({newTabs_scenario_key: value})
+    chrome.storage.local.set({scenario_key: value})
 }
 
 //######## textRecord
-const newTabs_textRecord_key = 'newTabs_textRecord_key'
+const textRecord_key = 'textRecord_key'
 
 export function getStorage_textRecord(callback) {
-    chrome.storage.local.get([newTabs_textRecord_key], result => {
-        callback(result.newTabs_textRecord_key)
+    chrome.storage.local.get([textRecord_key], result => {
+        callback(result.textRecord_key)
     })
 }
 
 export function setStorage_textRecord(value) {
-    chrome.storage.local.set({newTabs_textRecord_key: value})
+    chrome.storage.local.set({textRecord_key: value})
 }
 
 
 //######## textRecord
-const newTabs_fragement_key = 'newTabs_fragement_key'
+const ragement_key = 'fragement_key'
 
 export function getStorage_fragement(callback) {
-    chrome.storage.local.get([newTabs_fragement_key], result => {
-        callback(result.newTabs_fragement_key)
+    chrome.storage.local.get([ragement_key], result => {
+        callback(result.ragement_key)
     })
 }
 
 export function setStorage_fragement(value) {
-    chrome.storage.local.set({newTabs_fragement_key: value})
+    chrome.storage.local.set({ragement_key: value})
+}
+
+
+//######## fetchList
+const fetch_key = 'fetch_key'
+
+export function getStorage_fetch(callback) {
+    chrome.storage.local.get([fetch_key], result => {
+        callback(result.fetch_key)
+    })
+}
+
+export function setStorage_fetch(value) {
+    chrome.storage.local.set({fetch_key: value})
 }

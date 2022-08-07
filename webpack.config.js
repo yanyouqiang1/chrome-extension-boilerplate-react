@@ -44,6 +44,7 @@ var options = {
         scenario: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.jsx'),
         yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
         fragement: path.join(__dirname, 'src', 'pages', 'Function','Usual','fragement', 'index.jsx'),
+        myfetch: path.join(__dirname, 'src', 'pages', 'Function','Usual','myfetch', 'index.jsx'),
         textRecord: path.join(__dirname, 'src', 'pages', 'Function','Usual','textRecord', 'index.jsx'),
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
@@ -189,6 +190,15 @@ var options = {
                 },
             ],
         }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: 'src/pages/Function/sandbox.html',
+                    to: path.join(__dirname, 'build'),
+                    force: true,
+                },
+            ],
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'pages', 'Options', 'index.html'),
             filename: 'options.html',
@@ -235,6 +245,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Usual','fragement', 'index.html'),
             filename: 'fragement.html',
             chunks: ['fragement'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','myfetch', 'index.html'),
+            filename: 'myfetch.html',
+            chunks: ['myfetch'],
             cache: false,
         }),
         new HtmlWebpackPlugin({

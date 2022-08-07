@@ -25,6 +25,7 @@ const items = [
         getItem('BASE64加密', 'base64.html'),
         getItem('文本记录', 'textRecord.html'),
         getItem('片段管理', 'fragement.html'),
+        getItem('脚本管理', 'myfetch.html'),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),

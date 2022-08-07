@@ -31,5 +31,15 @@
   "permissions": [
     "storage",
     "tabs"
+  ],
+  "sandbox": {
+    "pages": [
+      "sandbox.html"
+    ]
+  },
+  "host_permissions": [
+    "http://www.google.com/",
+    "https://www.google.com/",
+    "“https://*/”"
   ]
 }
