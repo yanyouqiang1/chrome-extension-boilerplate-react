@@ -66,6 +66,7 @@ const FetchList = () => {
         assign.unshift(newItem)
         setStorage_fetch(assign)
         setFetchList(assign)
+        message.success("新建",3)
     }
     const toeval = (evalstr) => {
         let ff = iframeRef.current

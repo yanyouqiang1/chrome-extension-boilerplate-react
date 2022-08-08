@@ -29,6 +29,7 @@ const Frage = (props) => {
     }
 
     const save = () => {
+        debugger
         props.save(data)
         message.success("保存成功",3)
     }

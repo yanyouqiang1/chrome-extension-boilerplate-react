@@ -1,4 +1,4 @@
-import {Button, Card, Col, Input, Row} from 'antd';
+import {Button, Card, Col, Input, message, Row} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {render} from "react-dom";
 import 'antd/dist/antd.css';
@@ -51,6 +51,7 @@ const Fragement = () => {
 
         setDatas(assign)
         setStorage_fragement(assign)
+        message.success("删除成功！", 3)
     }
 
     const newData = () => {

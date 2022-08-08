@@ -8,29 +8,22 @@ const RecordItem = (props) => {
     const {dataSource, saveRecord, deleteRecord, linkDelete} = props
     // const [data, setData] = useState({})
 
+    const [rData, setRData] = useState(dataSource)
 
-    const [rTitle, setRTitle] = useState('')
-    const [rRemark, setRremark] = useState('')
-    const [rData, setRData] = useState('')
-
-    useEffect(() => {
-        setRTitle(dataSource.title)
-        setRremark(dataSource.remark)
-        setRData(dataSource)
-    }, [])
 
     const remarkChange = (e) => {
-        setRremark(e.target.value)
+        let assign = Object.assign({},rData);
+        assign.remark = e.target.value
+        setRData(assign)
     }
     const nameChange = (e) => {
-        setRTitle(e.target.value)
+        let assign = Object.assign({},rData);
+        assign.title = e.target.value
+        setRData(assign)
     }
 
     const save = () => {
-        let s = Object.assign({},rData);
-        s.remark= rRemark
-        s.title = rTitle
-        saveRecord(s);
+        saveRecord(rData);
     }
 
     const rdelete = () => {
@@ -52,7 +45,7 @@ const RecordItem = (props) => {
             <Card style={{borderColor: "green"}}
                   title={
                       <Popover content={dataSource.createTime} trigger="hover">
-                          <Input bordered={false} value={rTitle}
+                          <Input bordered={false} value={rData.title}
                                  onChange={nameChange}/>
                       </Popover>}
                   extra={
@@ -75,7 +68,7 @@ const RecordItem = (props) => {
                         </List.Item>
                     )}
                 />
-                <TextArea value={rRemark} onChange={remarkChange} rows={8}/>
+                <TextArea value={rData.remark} onChange={remarkChange} rows={8}/>
 
             </Card>
         </Col>

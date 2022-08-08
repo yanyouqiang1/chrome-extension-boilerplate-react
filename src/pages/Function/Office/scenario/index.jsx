@@ -3,7 +3,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {Card, List, Col, Divider, Input, Row, Button, message, Image} from 'antd';
 import 'antd/dist/antd.css';
 import {getCurrentTabsNoActive, getStorage_scenario, setStorage_scenario} from "../../chromeCommon";
-import TextArea from "antd/es/input/TextArea";
 import Search from "antd/es/input/Search";
 import dayjs from "dayjs";
 import randomstring from "rdm-str";
@@ -58,6 +57,7 @@ const Scenario = () => {
 
                 setStorage_scenario(records);
                 setDatas(records)
+                message.success("新建",3)
             })
 
         })
@@ -80,16 +80,18 @@ const Scenario = () => {
 
     }
     const deleteRecord = (key) => {
+        let assign = Object.assign([], datas);
+
         if (confirm("确认删除吗？")) {
-            let current = saveData.current;
-            datas.map((data, index) => {
+            let current = datas;
+            assign.map((data, index) => {
                 if (data.key == key) {
-                    current.splice(index, 1)
+                    assign.splice(index, 1)
                 }
             })
 
-            setDatas(Object.assign([], current))
-            setStorage_scenario(current)
+            setDatas(assign)
+            setStorage_scenario(assign)
             message.success('删除成功', 3);
         }
     }
