@@ -27,7 +27,10 @@ const RecordItem = (props) => {
     }
 
     const save = () => {
-        saveRecord(dataSource.key, rTitle, rRemark);
+        let s = Object.assign({},rData);
+        s.remark= rRemark
+        s.title = rTitle
+        saveRecord(s);
     }
 
     const rdelete = () => {

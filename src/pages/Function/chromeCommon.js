@@ -94,16 +94,16 @@ export function setStorage_textRecord(value) {
 
 
 //######## textRecord
-const ragement_key = 'fragement_key'
+const fragement_key = 'fragement_key'
 
 export function getStorage_fragement(callback) {
-    chrome.storage.local.get([ragement_key], result => {
-        callback(result.ragement_key)
+    chrome.storage.local.get([fragement_key], result => {
+        callback(result.fragement_key)
     })
 }
 
 export function setStorage_fragement(value) {
-    chrome.storage.local.set({ragement_key: value})
+    chrome.storage.local.set({fragement_key: value})
 }
 
 

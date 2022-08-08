@@ -12,7 +12,6 @@ import {similarity2} from "../../similarity";
 
 
 const Scenario = () => {
-    const saveData = useRef()
     const [datas, setDatas] = useState([])
 
     const initDatas = [{
@@ -30,9 +29,9 @@ const Scenario = () => {
 
     useEffect(() => {
         getStorage_scenario(result => {
+            console.log(result)
             result = result ? result : initDatas;
             setDatas(result)
-            saveData.current = result
         })
     }, [])
 
@@ -63,16 +62,20 @@ const Scenario = () => {
 
         })
     }
-    const saveRecord = (key, title, remark) => {
-        let current = saveData.current;
-        datas.map((data, index) => {
+    const saveRecord = (item) => {
+        let {key,title,remark,links} = item
+
+        let assign = Object.assign([],datas);
+
+        assign.map((data, index) => {
             if (data.key == key) {
-                current[index].title = title
-                current[index].remark = remark
+                assign[index].links = links
+                assign[index].title = title
+                assign[index].remark = remark
             }
         })
-        setDatas(Object.assign([], current))
-        setStorage_scenario(current)
+        setDatas(assign)
+        setStorage_scenario(assign)
         message.success('保存成功', 3);
 
     }
