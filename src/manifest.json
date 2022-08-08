@@ -33,9 +33,7 @@
     "tabs"
   ],
   "sandbox": {
-    "pages": [
-      "sandbox.html"
-    ]
+    "pages": ["sandbox.html"]
   },
   "host_permissions": [
     "http://www.google.com/",

@@ -1,29 +1,37 @@
 import {render} from "react-dom";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Myfetch from "./Myfetch";
 import 'antd/dist/antd.css';
 import {getStorage_fetch, setStorage_fetch} from "../../chromeCommon";
 import {Button} from "antd";
+import ReactJson from 'react-json-view'
 
-const iframe = document.getElementById('sandbox');
-
-window.addEventListener('message', (event) => {
-    console.log('EVAL output', event.data);
-});
-
-const sendToEval = (str) => {
-    iframe.contentWindow.postMessage('10 + 20', '*');
+const globalVar = {
+    updateFetchState: null
 }
 
 
+const identify = 'fetch'
+window.addEventListener('message', (event) => {
+    if (event.data.identify == identify) {
+        globalVar.updateFetchState(JSON.parse(event.data.evalResult))
+    }
+});
 
 
 const FetchList = () => {
     const [fetchList, setFetchList] = useState([])
+    const [fetchResult,setFetchResult] = useState([])
+    globalVar.updateFetchState = (result) => {
+        setFetchResult(result)
+    }
+
+    const iframeRef = useRef(null)
+
+
 
     useEffect(() => {
         getStorage_fetch(data => {
-
             setFetchList(data ? data : [])
         })
 
@@ -44,7 +52,7 @@ const FetchList = () => {
 
     const newitem = () => {
         let assign = Object.assign([], fetchList);
-        let newItem={
+        let newItem = {
             key: "zxcvas",
             title: "这是一个title11",
             override: {
@@ -60,12 +68,26 @@ const FetchList = () => {
         setStorage_fetch(assign)
         setFetchList(assign)
     }
+    const toeval = (evalstr) => {
+        let ff = iframeRef.current
+        let postData = {
+            identify: identify,
+            evalStr: evalstr
+        }
+        ff.contentWindow.postMessage(postData, '*');
+
+    }
     return (
         <>
+
+            <ReactJson src={fetchResult} />
+
+            <iframe src="sandbox.html" id="sandbox" ref={iframeRef} style={{display: "none"}}/>
+
             <Button type={"primary"} onClick={newitem}>New</Button>
             {
                 fetchList.map(data =>
-                    <Myfetch key={data.key} data={data} save={itemSave} />
+                    <Myfetch key={data.key} data={data} save={itemSave} toeval={toeval}/>
                 )
             }
         </>

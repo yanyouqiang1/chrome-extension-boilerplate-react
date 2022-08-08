@@ -24,6 +24,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
+    "react-json-view": "^1.21.3",
     "safe-eval": "^0.4.1",
     "umi-request": "^1.4.0",
     "wangeditor": "^4.7.15",

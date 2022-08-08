@@ -10,8 +10,6 @@ const {Panel} = Collapse;
 
 const Myfetch = (props) => {
 
-
-
     const initData = {
         key: "zxcvas",
         title: "这是一个title",
@@ -66,13 +64,13 @@ const Myfetch = (props) => {
         message.success("保存成功", 3)
     }
     const dotry = () => {
-       /* let newFetch = replaceHost()
-        let result = eval(newFetch)
+        let newFetch = replaceHost()
+        let result = props.toeval(newFetch)
         console.log(result)
         result.then(data => {
             setFetchResult(JSON.stringify(data))
-        })*/
-        sendToEval("123")
+        })
+        // sendToEval("123")
     }
 
     const replaceHost = () => {

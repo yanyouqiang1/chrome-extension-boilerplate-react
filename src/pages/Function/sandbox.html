@@ -1,7 +1,21 @@
 <html>
 <script>
     window.addEventListener('message', async function (event) {
-        event.source.window.postMessage(eval(event.data), event.origin);
+/*        let data ={
+            identify: "标识",
+            evalStr: "需要计算的表达式"
+        }*/
+        console.log("进行eval对象",event.data)
+
+        eval(event.data.evalStr).then(response=>response.text()).then(txtResult=>{
+            let result={
+                identify: event.data.identify,
+                evalResult: txtResult
+            }
+
+            event.source.window.postMessage(result, event.origin);
+        })
+
     });
 </script>
 </html>
