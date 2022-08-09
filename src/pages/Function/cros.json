@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "condition": {
+      "urlFilter": "|http*",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    },
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        {
+          "header": "Access-Control-Allow-Origin",
+          "operation": "set",
+          "value": "*"
+        },
+        {
+          "header": "Access-Control-Allow-Credentials",
+          "operation": "set",
+          "value": "true"
+        },
+        {
+          "header": "Access-Control-Allow-Methods",
+          "operation": "set",
+          "value": "POST, GET, OPTIONS, DELETE, HEAD"
+        }
+      ]
+    }
+  }
+]

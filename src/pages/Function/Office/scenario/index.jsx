@@ -96,7 +96,8 @@ const Scenario = () => {
         }
     }
     const onSearch = (value) => {
-        let assign = Object.assign([], saveData.current);
+        let assign = Object.assign([], datas);
+        debugger
         if (value) {
             let sort = assign.map(record => {
                 record.count = similarity2(record.title, value)
@@ -110,15 +111,15 @@ const Scenario = () => {
         }
     }
     const linkDelete=(key,linkIndex)=>{
-        let current = saveData.current;
-        datas.map((data, index) => {
+        let assign = Object.assign([], datas);
+        assign.map((data, index) => {
             if (data.key == key) {
-                current[index].links.splice(linkIndex,1)
+                assign[index].links.splice(linkIndex,1)
             }
         })
 
-        setDatas(Object.assign([], current))
-        setStorage_scenario(current)
+        setDatas(assign)
+        setStorage_scenario(assign)
         message.success('删除成功', 3);
     }
     return (
