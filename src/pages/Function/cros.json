@@ -25,6 +25,11 @@
           "header": "Access-Control-Allow-Methods",
           "operation": "set",
           "value": "POST, GET, OPTIONS, DELETE, HEAD"
+        },
+        {
+          "header": "Access-Control-Allow-Headers",
+          "operation": "set",
+          "value": "x-requested-with,content-type"
         }
       ]
     }
