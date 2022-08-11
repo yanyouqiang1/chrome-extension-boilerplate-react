@@ -26,6 +26,7 @@ const items = [
         getItem('文本记录', 'textRecord.html'),
         getItem('片段管理', 'fragement.html'),
         getItem('Fetch管理', 'myfetch.html'),
+        getItem('文件比对', 'filediff.html'),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),
