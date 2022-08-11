@@ -50,7 +50,7 @@ const TAB = () => {
             title: '地址',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => <a href={text}>{text.substring(0, 30)}</a>
+            render: (text) => <a href={text} style={{fontSize: "small"}}>{text}</a>
         },
         {
             title: '备注',
@@ -110,6 +110,7 @@ const TAB = () => {
             let ss = Object.assign([], datasource)
             if (stags) {
                 ss = ss.filter(datasource => arrayInclude(datasource.tags, stags))
+                ss.sort((a,b)=>a.tags.length-b.tags.length)
             }
             if (sname) {
                 //相似度计算并排序

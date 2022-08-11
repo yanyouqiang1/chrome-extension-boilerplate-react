@@ -1,9 +1,10 @@
 // #####fucniton
 export function arrayInclude(arr1,arr2){
-    let temp = []
+    let contain = true
     for (const item of arr2) {
-        // eslint-disable-next-line no-unused-expressions
-        arr1.findIndex(i => i === item) !== -1 ? temp.push(item) : ''
+        if (!arr1.includes(item)){
+            contain = false
+        }
     }
-    return temp.length ? true : false
+    return contain
 }
