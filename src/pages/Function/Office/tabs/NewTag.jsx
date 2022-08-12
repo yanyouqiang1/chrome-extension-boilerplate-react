@@ -7,16 +7,15 @@ const tagColor = ["magenta", "red", "volcano", "orange", "gold", "lime", "green"
 const App = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [inputTag, setInputTag] = useState('')
-    const saveTag = useRef()
     const [tags, setTags] = useState([])
+
 
     useEffect(() => {
         getStorage_newTabs_tags(result => {
             result = result ? result : []
             setTags(result)
-            saveTag.current = result
         })
-    })
+    },[])
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -26,19 +25,16 @@ const App = (props) => {
         setInputTag("")
         setIsModalVisible(false);
 
-        let current = saveTag.current;
+        let assign = Object.assign([],tags);
+        // let current = saveTag.current;
 
         //查重
-        if (!current.includes(inputTag)) {
-            current.unshift(inputTag)
+        if (!assign.includes(inputTag)) {
+            assign.unshift(inputTag)
 
-            let assign = Object.assign([], current);
             setTags(assign)
             setStorage_newTabs_tags(assign)
 
-            if (props.refresh) {
-                props.refresh()
-            }
             message.success("添加成功", 3)
         } else {
             message.error("重复标签", 3)
@@ -56,12 +52,11 @@ const App = (props) => {
     }
     const close = (tag) => {
         if (confirm("确认吗？")) {
-            let current = saveTag.current;
-            current = current.filter(s => s != tag)
+            let assign = Object.assign([],tags);
+            assign = assign.filter(s => s != tag)
 
-            saveTag.current = current
-            setStorage_newTabs_tags(current)
-            setTags(Object.assign([], current))
+            setStorage_newTabs_tags(assign)
+            setTags(assign)
             message.success("删除成功", 3)
         }
     }
