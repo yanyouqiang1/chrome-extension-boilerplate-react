@@ -47,7 +47,10 @@ const MyPanel = () => {
     }, [])
 
     const test = () => {
-        setResult(JSON.stringify(allData));
+        chrome.devtools.network.getHAR(log=>{
+            setResult(JSON.stringify(allData));
+        }
+    )
         // log("send")
         // chrome.runtime.sendMessage({
         //     source: "refreash",
