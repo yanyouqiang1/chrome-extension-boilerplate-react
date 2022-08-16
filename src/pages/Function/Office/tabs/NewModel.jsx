@@ -39,9 +39,11 @@ const NewModel = (props) => {
         let formValue = form.getFieldsValue()
         const  key = randomstring(7);
 
+        debugger
         const record={
             key: key,
             name: formValue.name,
+            title: tabOptions[formValue.tab].title,
             address: tabOptions[formValue.tab].url,
             remark: formValue.remark,
             tags: formValue.tags

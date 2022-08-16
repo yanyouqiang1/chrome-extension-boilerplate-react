@@ -49,7 +49,15 @@ const TAB = () => {
             title: '地址',
             dataIndex: 'address',
             key: 'address',
-            render: (text) => <a href={text} style={{fontSize: "small"}}>{text}</a>
+            render: (_,record) => {
+                return <>
+                    <a href={record.address} style={{fontSize: "small"}}>
+                        <span style={{color: "black",}}>{record.title}</span>
+                        <br/>
+                        {record.address}
+                    </a>
+                </>
+            }
         },
         {
             title: '备注',
@@ -64,7 +72,7 @@ const TAB = () => {
             key: 'tags',
             dataIndex: 'tags',
             render: (_, {tags}) => {
-                tags = tags?tags:[]
+                tags = tags ? tags : []
                 return (
                     <>
                         {tags.map((tag) => {
@@ -109,7 +117,7 @@ const TAB = () => {
             let ss = Object.assign([], datasource)
             if (stags) {
                 ss = ss.filter(datasource => arrayInclude(datasource.tags, stags))
-                ss.sort((a,b)=>a.tags.length-b.tags.length)
+                ss.sort((a, b) => a.tags.length - b.tags.length)
             }
             if (sname) {
                 //相似度计算并排序
