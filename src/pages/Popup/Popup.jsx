@@ -27,6 +27,7 @@ const items = [
         getItem('片段管理', 'fragement.html'),
         getItem('Fetch管理', 'myfetch.html'),
         getItem('文件比对', 'filediff.html'),
+        getItem('html渲染', 'httpstrShow.html'),
     ]),
     getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
         getItem('Option 9', '9'),
