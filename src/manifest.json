@@ -28,18 +28,9 @@
       "matches": []
     }
   ],
-  "declarative_net_request": {
-    "rule_resources": [{
-      "id": "cros",
-      "enabled": true,
-      "path": "cros.json"
-    }]
-  },
   "permissions": [
     "storage",
-    "tabs",
-    "declarativeNetRequest",
-    "declarativeNetRequestFeedback"
+    "tabs"
   ],
   "sandbox": {
     "pages": ["sandbox.html"]
