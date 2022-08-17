@@ -3,12 +3,6 @@ import React, {useState} from "react";
 import 'antd/dist/antd.css';
 import {Col, Row} from "antd";
 
-const HtmlContainer = (props) => (
-    <div>
-        {props.children}
-    </div>
-)
-
 const HttpStr = () => {
     const [htmlText, setHtmlText] = useState('')
     const [result, setResult] = useState('')
@@ -22,12 +16,13 @@ const HttpStr = () => {
         <>
             <Row>
                 <Col span={12}>
-                    <textarea rows={80} value={htmlText} onChange={inputChange}></textarea>
+                    <h2>需要渲染的内容</h2>
+                    <textarea style={{width:'100%'}} rows={80} value={htmlText} onChange={inputChange}></textarea>
                 </Col>
 
                 <Col span={12}>
-                    <div dangerouslySetInnerHTML={result}></div>
-                    <HtmlContainer>{result}</HtmlContainer>
+                    <h2>渲染结果</h2>
+                    <html dangerouslySetInnerHTML={{__html: result}} style={{marginLeft:10}}></html>
                 </Col>
             </Row>
         </>
