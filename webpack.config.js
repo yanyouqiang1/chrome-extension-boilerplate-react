@@ -41,6 +41,7 @@ var options = {
         background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
         contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
         tabs: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.jsx'),
+        todolist: path.join(__dirname, 'src', 'pages', 'Function','Office','todolist', 'index.jsx'),
         scenario: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.jsx'),
         yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
         fragement: path.join(__dirname, 'src', 'pages', 'Function','Usual','fragement', 'index.jsx'),
@@ -238,6 +239,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.html'),
             filename: 'tabs.html',
             chunks: ['tabs'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Office','todolist', 'index.html'),
+            filename: 'todolist.html',
+            chunks: ['todolist'],
             cache: false,
         }),
          new HtmlWebpackPlugin({

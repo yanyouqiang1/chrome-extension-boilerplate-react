@@ -19,6 +19,7 @@ const items = [
     getItem('办公便捷', 'sub1', <MailOutlined/>, [
         getItem('链接管理', 'tabs.html'),
         getItem('场景管理', 'scenario.html'),
+        getItem('ToDo列表', 'todolist.html'),
     ]),
     getItem('常用功能', 'sub2', <SettingOutlined/>, [
         getItem('YAML/JSON工具', 'yml.html'),
