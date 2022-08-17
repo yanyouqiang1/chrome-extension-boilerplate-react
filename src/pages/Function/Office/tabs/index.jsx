@@ -50,13 +50,13 @@ const TAB = () => {
             dataIndex: 'address',
             key: 'address',
             render: (_,record) => {
-                return <>
+                return <div style={{maxWidth:'500px'}}>
                     <a href={record.address} style={{fontSize: "small"}}>
                         <span style={{color: "black",}}>{record.title}</span>
                         <br/>
                         {record.address}
                     </a>
-                </>
+                </div>
             }
         },
         {

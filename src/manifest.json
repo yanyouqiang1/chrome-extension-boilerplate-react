@@ -37,5 +37,15 @@
   },
   "host_permissions": [
     "<all_urls>"
-  ]
+  ],
+
+  "commands": {
+    "add-tabs": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "add tabs"
+    }
+  }
 }

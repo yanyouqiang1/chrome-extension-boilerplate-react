@@ -39,7 +39,6 @@ const NewModel = (props) => {
         let formValue = form.getFieldsValue()
         const  key = randomstring(7);
 
-        debugger
         const record={
             key: key,
             name: formValue.name,

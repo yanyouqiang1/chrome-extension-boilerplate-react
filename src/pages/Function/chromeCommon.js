@@ -7,6 +7,17 @@ export async function getCurrentTabsNoActive() {
     let tabs = await chrome.tabs.query(query)
     return tabs
 }
+//获取当前tab
+export async function getCurrentTab() {
+    let query = {
+        windowId: chrome.windows.WINDOW_ID_CURRENT,
+        active: true
+    }
+    let tabs = await chrome.tabs.query(query)
+    return tabs
+}
+
+
 
 export function createUrls(urls) {
     for (const url of urls) {
