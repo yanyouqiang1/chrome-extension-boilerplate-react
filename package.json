@@ -19,6 +19,7 @@
     "@wangeditor/editor-for-react": "^1.0.4",
     "antd": "^4.22.2",
     "base-64": "^1.0.0",
+    "datetime-machine": "^1.0.8",
     "dayjs": "^1.11.4",
     "diff": "^5.1.0",
     "rdm-str": "^1.0.1",

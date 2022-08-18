@@ -18,3 +18,17 @@
 .historyRow{
     margin-top: 20px;
 }
+
+.historySelect{
+    float: right;
+}
+
+.todoAvatar{
+    background-color: crimson;
+    color: white;
+}
+
+.finishAvatar{
+    background-color: green;
+    vertical-align: middle;
+}

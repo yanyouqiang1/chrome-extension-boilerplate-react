@@ -1,17 +1,18 @@
 import {render} from "react-dom";
 import React, {useEffect, useState} from "react";
 import "antd/dist/antd.css";
-import {Avatar, Badge, Button, Card, Checkbox, Col, List, Menu, Row, Typography} from "antd";
+import {Avatar, Badge, Button, Card, Checkbox, Col, Dropdown, List, Menu, message, Row, Space, Typography} from "antd";
 import dayjs from "dayjs";
 import {
     CheckCircleOutlined, CheckOutlined,
     ClockCircleOutlined,
-    CloseCircleOutlined,
-    ExclamationCircleOutlined
+    CloseCircleOutlined, DownOutlined,
+    ExclamationCircleOutlined, InfoCircleOutlined
 } from "@ant-design/icons";
 import {getStorage_todolist, setStorage_todolist} from "../../chromeCommon";
 import randomstring from "rdm-str";
 import './index.css'
+import DatetimeMachine from "datetime-machine";
 
 const STATUS_FINISH = "finish";
 const STATUS_NEW = "new";
@@ -30,17 +31,20 @@ const TodoList = () => {
     const [newDatasource, setNewDataSource] = useState([]);
     const [finishDatasource, setFinishDatasource] = useState([]);
 
+    const [freshFlag, setFreshFlag] = useState(false)
+
+
     const [inputText, setInputText] = useState("");
 
     useEffect(() => {
         getStorage_todolist(datas => {
             datas = datas ? datas : [];
-            setDataSource(datasource)
+            setDataSource(datas)
             setNewDataSource(datas.filter(it => it.status == STATUS_NEW));
             setFinishDatasource(datas.filter(it => it.status == STATUS_FINISH));
 
         });
-    }, [datasource]);
+    }, [freshFlag]);
     const textChange = (e) => {
         setInputText(e.target.value);
     };
@@ -50,7 +54,7 @@ const TodoList = () => {
                 key: randomstring(7),
                 content: inputText,
                 status: "new",
-                createTime: dayjs().format("YYYY-MM-DD h:mm:ss"),
+                createTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
                 finishTime: ""
             };
         let assign = Object.assign([], datasource);
@@ -76,62 +80,57 @@ const TodoList = () => {
         assign.forEach((it, index) => {
             if (it.key == item.key) {
                 assign[index].status = STATUS_FINISH;
+                assign[index].finishTime = dayjs().format("YYYY-MM-DD HH:mm:ss")
             }
         });
         saveAndFresh(assign);
+
+        message.info('Congratulations on');
     };
     const saveAndFresh = (datasource) => {
         setInputText("");
         setStorage_todolist(datasource);
         setDataSource(datasource);
+        setFreshFlag(!freshFlag)
     };
+
+    const datetimeMachine = new DatetimeMachine()
+    const menuItemClick = ({key}) => {
+        let now = dayjs().format("YYYY-MM-DD HH:mm:ss");
+
+        let assign = Object.assign([], datasource);
+        let filter = assign.filter(data => datetimeMachine.compute(data.finishTime, now).total.day < key);
+
+        setFinishDatasource(filter)
+    };
+
+    window.onload = () => {
+        menuItemClick({key: 7})
+    }
 
     const menu = (
         <Menu
+            onClick={menuItemClick}
             items={[
                 {
-                    key: '1',
-                    type: 'group',
-                    label: 'Group title',
-                    children: [
-                        {
-                            key: '1-1',
-                            label: '1st menu item',
-                        },
-                        {
-                            key: '1-2',
-                            label: '2nd menu item',
-                        },
-                    ],
+                    label: '最近7天',
+                    key: '7',
                 },
                 {
-                    key: '2',
-                    label: 'sub menu',
-                    children: [
-                        {
-                            key: '2-1',
-                            label: '3rd menu item',
-                        },
-                        {
-                            key: '2-2',
-                            label: '4th menu item',
-                        },
-                    ],
+                    label: '最近30天',
+                    key: '30',
                 },
                 {
-                    key: '3',
-                    label: 'disabled sub menu',
-                    disabled: true,
-                    children: [
-                        {
-                            key: '3-1',
-                            label: '5d menu item',
-                        },
-                        {
-                            key: '3-2',
-                            label: '6th menu item',
-                        },
-                    ],
+                    label: '最近三个月',
+                    key: '90',
+                },
+                {
+                    label: '最近半年',
+                    key: '180',
+                },
+                {
+                    label: '最近一年',
+                    key: '365',
                 },
             ]}
         />
@@ -141,11 +140,11 @@ const TodoList = () => {
         <>
             <Row className="todoRow" justify="center" gutter={24}>
                 <Col span={15} className="todoCol">
-                    <Badge count={5} className="todoBadge">
+                    <Badge count={newDatasource.length} className="todoBadge">
                         <List
                             header={
                                 <>
-                                    <h2 className="todotitle">TODO</h2>
+                                    <h4><InfoCircleOutlined style={{color: "red"}}/> 待办事项</h4>
                                 </>
                             }
                             footer={<>
@@ -154,14 +153,18 @@ const TodoList = () => {
                             </>}
                             itemLayout="horizontal"
                             dataSource={newDatasource}
-                            renderItem={(item) => (
+                            renderItem={(item, index) => (
                                 <List.Item actions={[
                                     <CloseCircleOutlined onClick={() => deleteRecord(item)} style={{color: "red"}}/>,
                                     <CheckOutlined onClick={() => finishRecord(item)} style={{color: "green"}}/>,
 
                                 ]}
                                 >
-                                    <List.Item.Meta title={item.content} description={item.createTime}/>
+                                    <List.Item.Meta
+                                        avatar={<Avatar className="todoAvatar">{index + 1}</Avatar>}
+                                        title={item.content}
+                                        description={item.createTime}
+                                    />
 
                                 </List.Item>
                             )}
@@ -175,24 +178,28 @@ const TodoList = () => {
                         header={<div>
                             <CheckCircleOutlined style={{color: "green"}}/>
                             完成历史
-                            <select>
-                                <option>最近30天</option>
-                                <option>最近30天</option>
-                                <option>最近30天</option>
-                                <option>最近30天</option>
-                            </select>
+                            <Dropdown overlay={menu} className="historySelect">
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <Space>
+                                        选择时间
+                                        <DownOutlined/>
+                                    </Space>
+                                </a>
+                            </Dropdown>
                         </div>}
                         footer={<></>}
                         itemLayout="horizontal"
                         dataSource={finishDatasource}
-                        renderItem={(item) => (
+                        renderItem={(item, index) => (
                             <List.Item>
-                                <div>
-                                    <Typography.Text mark>[ITEM]</Typography.Text>
-                                    {item.content}
-                                    <Button onClick={() => finishRecord(item)}>done</Button>
-                                    <Button onClick={() => deleteRecord(item)}>delete</Button>
-                                </div>
+                                <List.Item.Meta
+                                    avatar={<Avatar className="finishAvatar">{index + 1}</Avatar>}
+                                    title={item.content}
+                                    description={<div>
+                                        创建时间：{item.createTime   }
+                                        完成时间：{item.finishTime}
+                                    </div> }
+                                ></List.Item.Meta>
                             </List.Item>
                         )}
                     />
