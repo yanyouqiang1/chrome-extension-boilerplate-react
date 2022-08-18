@@ -45,6 +45,7 @@ const ToDoPart = () => {
     };
     const finishRecord = (item) => {
         item.status = STATUS_FINISH
+        item.finishTime = dayjs().format("YYYY-MM-DD HH:mm:ss")
         saveAndFreshItem(item);
         message.info('Congratulations on');
     };

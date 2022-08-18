@@ -2,10 +2,12 @@ import React, {useEffect, useState} from "react";
 import {getStorage_todolist} from "../../chromeCommon";
 import DatetimeMachine from "datetime-machine";
 import dayjs from "dayjs";
-import {Avatar, Col, Dropdown, List, Menu, Row, Space} from "antd";
+import {Avatar, Col, Dropdown, List, Menu, message, Row, Space} from "antd";
 import {CheckCircleOutlined, DownOutlined} from "@ant-design/icons";
-import {STATUS_FINISH} from "./index";
 import './index.css'
+
+export const STATUS_FINISH = "finish";
+export const STATUS_NEW = "new";
 
 const FinishPart = () => {
     const [finishDatasource, setFinishDatasource] = useState([]);
@@ -14,7 +16,6 @@ const FinishPart = () => {
         getStorage_todolist(datas => {
             datas = datas ? datas : [];
             setFinishDatasource(datas.filter(it => it.status == STATUS_FINISH));
-
         });
     }, []);
 
@@ -29,8 +30,9 @@ const FinishPart = () => {
             }else {
                 setFinishDatasource([])
             }
-
+            message.info("查询成功！")
         })
+
     };
 
     window.onload = () => {
@@ -67,7 +69,7 @@ const FinishPart = () => {
 
     return (
         <Row justify="center" className="historyRow">
-            <Col span={15}>
+            <Col span={20}>
                 <List
                     header={<div>
                         <CheckCircleOutlined style={{color: "green"}}/>
