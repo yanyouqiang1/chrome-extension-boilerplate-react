@@ -1,0 +1,20 @@
+.todoRow{
+    margin-top: 10px;
+}
+.todotitle{
+    color: green;
+    text-decoration: underline;
+}
+.todoBadge{
+    width: 100%;
+}
+.inputText{
+    width: 100%;
+}
+.subBtn{
+    margin-top: 5px;
+    float: right;
+}
+.historyRow{
+    margin-top: 20px;
+}
