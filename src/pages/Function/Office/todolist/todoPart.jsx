@@ -99,7 +99,7 @@ const ToDoPart = () => {
                             ]}
                             >
                                 <List.Item.Meta
-                                    avatar={<Avatar className="todoAvatar">{index + 1}</Avatar>}
+                                    avatar={<Avatar className="todoAvatar">ToDo</Avatar>}
                                     title={item.content}
                                     description={item.createTime}
                                 />

@@ -53,7 +53,7 @@ const App = () => {
         w.location.href = item.key
     }
     return (
-        <>
+        <div style={{marginLeft:10}}>
             <Tabs defaultActiveKey="2">
                 <TabPane tab="待办事项" key="2">
                     <div style={{width:450}}>
@@ -74,7 +74,7 @@ const App = () => {
                 </TabPane>
 
             </Tabs>
-        </>
+        </div>
 
     );
 };
