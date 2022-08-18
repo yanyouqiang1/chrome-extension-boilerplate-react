@@ -2,7 +2,6 @@ import {render} from "react-dom";
 import React, {useEffect, useState} from "react";
 import "antd/dist/antd.css";
 
-import './index.css'
 import ToDoPart from "./todoPart";
 import FinishPart from "./finishPart";
 

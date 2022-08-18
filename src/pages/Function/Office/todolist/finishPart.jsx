@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import {Avatar, Col, Dropdown, List, Menu, Row, Space} from "antd";
 import {CheckCircleOutlined, DownOutlined} from "@ant-design/icons";
 import {STATUS_FINISH} from "./index";
+import './index.css'
 
 const FinishPart = () => {
     const [finishDatasource, setFinishDatasource] = useState([]);
@@ -22,8 +23,13 @@ const FinishPart = () => {
         let now = dayjs().format("YYYY-MM-DD HH:mm:ss");
 
         getStorage_todolist(datas => {
-            let filter = datas.filter(data => datetimeMachine.compute(data.finishTime, now).total.day < key);
-            setFinishDatasource(filter)
+            if (datas){
+                let filter = datas.filter(data => datetimeMachine.compute(data.finishTime, now).total.day < key);
+                setFinishDatasource(filter)
+            }else {
+                setFinishDatasource([])
+            }
+
         })
     };
 

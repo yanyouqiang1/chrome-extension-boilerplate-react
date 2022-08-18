@@ -1,10 +1,12 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
-
+import { Tabs } from 'antd';
 import {MailOutlined, SettingOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import React, {useState} from 'react';
+import ToDoPart from "../Function/Office/todolist/todoPart";
 
+const { TabPane } = Tabs;
 function getItem(label, key, icon, children, type) {
     return {
         key,
@@ -30,12 +32,6 @@ const items = [
         getItem('文件比对', 'filediff.html'),
         getItem('html渲染', 'httpstrShow.html'),
     ]),
-    getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
-        getItem('Option 9', '9'),
-        getItem('Option 10', '10'),
-        getItem('Option 11', '11'),
-        getItem('Option 12', '12'),
-    ]),
 ]; // submenu keys of first level
 
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
@@ -57,16 +53,29 @@ const App = () => {
         w.location.href = item.key
     }
     return (
-        <Menu
-            mode="inline"
-            openKeys={openKeys}
-            onSelect={onSelect}
-            onOpenChange={onOpenChange}
-            style={{
-                width: 256,
-            }}
-            items={items}
-        />
+        <>
+            <Tabs defaultActiveKey="2">
+                <TabPane tab="待办事项" key="2">
+                    <div style={{width:450}}>
+                        <ToDoPart/>
+                    </div>
+                </TabPane>
+                <TabPane tab="相关工具" key="1">
+                    <Menu
+                        mode="inline"
+                        openKeys={openKeys}
+                        onSelect={onSelect}
+                        onOpenChange={onOpenChange}
+                        style={{
+                            width: 450,
+                        }}
+                        items={items}
+                    />
+                </TabPane>
+
+            </Tabs>
+        </>
+
     );
 };
 

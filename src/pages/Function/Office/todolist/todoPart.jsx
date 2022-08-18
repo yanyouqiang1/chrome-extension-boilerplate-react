@@ -4,10 +4,10 @@ import randomstring from "rdm-str";
 import dayjs from "dayjs";
 import {Avatar, Badge, Button, Col, List, message, Row} from "antd";
 import {CheckOutlined, CloseCircleOutlined, InfoCircleOutlined} from "@ant-design/icons";
-import {STATUS_NEW} from "./index";
+import './index.css'
 
-
-
+export const STATUS_FINISH = "finish";
+export const STATUS_NEW = "new";
 const ToDoPart = () => {
     const [newDatasource, setNewDatasource] = useState([]);
 
@@ -15,9 +15,11 @@ const ToDoPart = () => {
 
     useEffect(() => {
         getStorage_todolist(datas => {
-            datas = datas ? datas : [];
-            setNewDatasource(datas.filter(it => it.status == STATUS_NEW));
-
+            if (datas){
+                setNewDatasource(datas.filter(it => it.status == STATUS_NEW));
+            }else{
+                setNewDatasource([])
+            }
         });
     }, []);
 
@@ -50,7 +52,7 @@ const ToDoPart = () => {
     const saveAndFreshItem = (item, isdelete = false) => {
         setInputText("");
         getStorage_todolist(datas => {
-
+            datas = datas?datas:[]
             var exist = false
             datas.forEach((it, index) => {
                 if (it.key == item.key) {
@@ -74,7 +76,7 @@ const ToDoPart = () => {
     return (
 
         <Row className="todoRow" justify="center" gutter={24}>
-            <Col span={15} className="todoCol">
+            <Col span={20} className="todoCol">
                 <Badge count={newDatasource.length} className="todoBadge">
                     <List
                         header={
