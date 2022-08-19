@@ -1,15 +1,32 @@
 import {printLine} from './modules/print';
+import {Button} from "antd";
+import {render} from "react-dom";
+import React from "react";
+import 'antd/dist/antd.css';
 
-console.log('Content script works!');
-console.log('Must reload extension for modifications to take effect.');
+import NewTabRecord from "./modules/NewTabRecord";
 
-printLine("Using the 'printLine' function from the Print Module");
 
+//展示保存标签页
+var showDialog
+
+const modelBind =(show,cancel)=>{
+    showDialog = show
+}
+
+window.onload = () => {
+    //追加容器
+    var dvObj = document.createElement('div');
+    dvObj.id ="app-container"
+    document.body.prepend(dvObj)
+
+    render(<NewTabRecord bind={modelBind} />, window.document.querySelector('#app-container'));
+}
 
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
-        if (message.type == 'remind') {
-            alert("tab 添加成功！")
+        if (message.type == 'add-tabs') {
+            showDialog();
         }
     }
 );
