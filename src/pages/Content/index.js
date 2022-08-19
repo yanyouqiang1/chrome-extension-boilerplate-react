@@ -1,5 +1,3 @@
-import {printLine} from './modules/print';
-import {Button} from "antd";
 import {render} from "react-dom";
 import React from "react";
 import 'antd/dist/antd.css';
