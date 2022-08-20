@@ -3,7 +3,7 @@ import { EditableProTable, ProCard, ProFormField, ProFormRadio } from "@ant-desi
 import React, { useEffect, useState } from "react";
 import "@ant-design/pro-components/dist/components.css";
 import dayjs from "dayjs";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 const notify_key = "notify_key";
 
@@ -33,7 +33,7 @@ type DataSourceType = {
   everyday?: boolean;
   at_time?: string;
   createTime?: string;
-  status?: string //finish open
+  status: boolean //finish open
 };
 
 const defaultData: DataSourceType[] = [
@@ -44,7 +44,7 @@ const defaultData: DataSourceType[] = [
     everyday: false,
     at_time: "2020-05-26T08:19:22Z",
     createTime: "2020-05-26T08:19:22Z",
-    status: "finish" //finish open
+    status: true
   }
 ];
 
@@ -62,9 +62,16 @@ export default () => {
 
   const columns: ProColumns<DataSourceType>[] = [
     {
-      title: "通知名称",
+      title: "启用闹钟",
+      dataIndex: "status",
+      tooltip: "启用闹钟",
+      readonly: false,
+      valueType: "switch",
+      width: "10%"
+    },
+    {
+      title: "通知标题",
       dataIndex: "title",
-      tooltip: "只读，使用form.getFieldValue获取不到值",
       formItemProps: (form, { rowIndex }) => {
         return {
           rules: rowIndex > 1 ? [{ required: true, message: "此项为必填项" }] : []
@@ -81,7 +88,7 @@ export default () => {
       dataIndex: "message",
       tooltip: "提醒消息的内容",
       readonly: false,
-      width: "50%"
+      width: "40%"
     },
     {
       title: "每天提醒",
@@ -138,19 +145,40 @@ export default () => {
     assign.push(data);
     setStorage_notify(assign);
     setDataSource(assign);
+
+    //刷新闹钟
+    freshNotify();
   };
   const freshNotify = () => {
+    //清空闹钟
+    chrome.alarms.clearAll();
 
-    let data = {
-      id: 740768,
-      title: "准备下班",
-      message: "要准备准备下班",
-      everyday: false,
-      at_time: "2022-08-20 20:32:05",
-      createTime: "2020-05-26T08:19:22Z",
-      status: "finish" //finish open
-    };
-    createAlarm(data);
+    getStorage_notify(datas => {
+      //open闹钟
+      let openData = datas
+        .filter((item: { status: string; }) => item.status);
+
+      //每日闹钟
+      let everyData = openData.filter((item: { everyday: any; }) => item.everyday);
+      //调整时间
+      let justifyData = everyData.map((item: { at_time: string; }) => {
+        let today = dayjs().format("YYYY-MM-DD");
+        let newTime = today + item.at_time.substring(item.at_time.indexOf(" "));
+        item.at_time = newTime;
+        return item;
+      });
+
+      //普通闹钟
+      let normalData = openData.filter((item: { everyday: any; }) => !item.everyday)
+        .filter((item: { at_time: number; }) => Date.parse(String(item.at_time)) > Date.now());
+
+      let concat = normalData.concat(justifyData);
+
+      concat.forEach((item: DataSourceType) => {
+        createAlarm(item);
+      });
+      message.info("共有" + concat.length + "个闹钟,其中每日闹钟" + everyData.length + "个");
+    });
   };
   //创建闹钟
   const createAlarm = (record: DataSourceType) => {
@@ -162,8 +190,7 @@ export default () => {
   chrome.alarms.onAlarm.addListener(alarm => {
     getStorage_notify(datas => {
       let record = datas.filter((item: { id: string; }) => (item.id + "") == alarm.name);
-      debugger
-      createNotify(record)
+      createNotify(record[0]);
     });
   });
 
@@ -200,7 +227,8 @@ export default () => {
             record: () => ({
               id: (Math.random() * 1000000).toFixed(0),
               title: "",
-              createTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
+              createTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              status: true
             })
           }
         }
