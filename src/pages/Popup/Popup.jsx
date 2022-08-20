@@ -22,6 +22,7 @@ const items = [
         getItem('链接管理', 'tabs.html'),
         getItem('场景管理', 'scenario.html'),
         getItem('ToDo列表', 'todolist.html'),
+        getItem('通知列表', 'notify.html'),
     ]),
     getItem('常用功能', 'sub2', <SettingOutlined/>, [
         getItem('YAML/JSON工具', 'yml.html'),
