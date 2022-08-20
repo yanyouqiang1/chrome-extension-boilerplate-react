@@ -143,3 +143,16 @@ export function getStorage_todolist(callback) {
 export function setStorage_todolist(value) {
   chrome.storage.local.set({ todolist_key: value });
 }
+
+//######## notify
+const notify_key = "notify_key";
+
+export function getStorage_notify(callback) {
+  chrome.storage.local.get([notify_key], result => {
+    callback(result.notify_key);
+  });
+}
+
+export function setStorage_notify(value) {
+  chrome.storage.local.set({ notify_key: value });
+}

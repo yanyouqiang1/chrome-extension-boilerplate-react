@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import { Button, Col, Row } from "antd";
 import Notity from './Notity'
+import { getStorage_notify } from "../../chromeCommon";
 
 const MyNotify = () => {
   const initData = [
@@ -12,6 +13,7 @@ const MyNotify = () => {
       message: "要准备准备下班",
       everyday: false,
       time: 1231123123,
+      createTime: 123123123,
       status: "finish" //finish open
     }
   ];
