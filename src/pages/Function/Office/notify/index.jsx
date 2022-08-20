@@ -2,8 +2,9 @@ import { render } from "react-dom";
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import { Button, Col, Row } from "antd";
+import Notity from './Notity'
 
-const Notify = () => {
+const MyNotify = () => {
   const initData = [
     {
       key: "aaaaaa",
@@ -35,4 +36,4 @@ const Notify = () => {
 };
 
 
-render(<Notify />, window.document.querySelector("#app-container"));
+render(<Notity />, window.document.querySelector("#app-container"));
