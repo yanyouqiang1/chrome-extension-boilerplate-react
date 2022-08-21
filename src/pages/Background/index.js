@@ -1,6 +1,7 @@
 import {
     getCurrentTab,
 } from "../Function/chromeCommon";
+import { freshNotify } from "../Function/alarmNotify";
 
 
 //消息格式
@@ -23,3 +24,11 @@ chrome.commands.onCommand.addListener((command) => {
         })
     }
 });
+
+chrome.runtime.onStartup.addListener(()=>{
+    freshNotify();
+    console.log("iiiiiiiiii");
+})
+// //开启闹钟
+// freshNotify();
+// console.log("open notify");

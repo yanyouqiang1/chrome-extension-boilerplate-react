@@ -7,7 +7,7 @@ const { getStorage_notify, setStorage_notify } = require("./chromeCommon");
 // 是否今天
 export const isToday = (date) => {
   let today = dayjs().format("YYYY-MM-DD");
-  return today == date;
+  return today === date;
 };
 
 
@@ -70,7 +70,7 @@ const createAlarm = (record) => {
 
 chrome.alarms.onAlarm.addListener(alarm => {
   getStorage_notify((datas) => {
-    let record = datas.filter((item) => (item.id + "") == alarm.name);
+    let record = datas.filter((item) => (item.id + "") === alarm.name);
     createNotify(record[0]);
   });
 });
@@ -83,7 +83,7 @@ const createNotify = (record) => {
     title: record.title,
     type: "basic",
     message: record.message + "",
-    buttons: [{ title: "Learn More" }],
+    buttons: [{ title: "OK" }],
     priority: 1
   }, function(notificationId) {
     console.log(notificationId);
