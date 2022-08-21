@@ -1,9 +1,10 @@
 import type { ProColumns } from "@ant-design/pro-components";
-import { EditableProTable, ProCard, ProFormField, ProFormRadio } from "@ant-design/pro-components";
+import { EditableProTable, ProCard, ProFormField } from "@ant-design/pro-components";
 import React, { useEffect, useState } from "react";
 import "@ant-design/pro-components/dist/components.css";
 import dayjs from "dayjs";
-import { Button, message } from "antd";
+import { Button, message, Switch } from "antd";
+import { AlertOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const notify_key = "notify_key";
 
@@ -28,12 +29,14 @@ const waitTime = (time: number = 100) => {
 
 type DataSourceType = {
   id: React.Key;
+  status: boolean
   title: string;
   message?: string;
-  everyday?: boolean;
+  everyday?: boolean; //是否每日提醒
+  lastNotified?: string; //最近提醒日期
   at_time?: string;
   createTime?: string;
-  status: boolean //finish open
+
 };
 
 const defaultData: DataSourceType[] = [
@@ -42,11 +45,19 @@ const defaultData: DataSourceType[] = [
     title: "准备下班",
     message: "要准备准备下班",
     everyday: false,
+    lastNotified: "2020-05-26",
     at_time: "2020-05-26T08:19:22Z",
     createTime: "2020-05-26T08:19:22Z",
     status: true
   }
 ];
+
+// 是否今天
+function isToday(date: any): boolean {
+  let today = dayjs().format("YYYY-MM-DD");
+  return today == date;
+}
+
 
 export default () => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
@@ -67,6 +78,11 @@ export default () => {
       tooltip: "启用闹钟",
       readonly: false,
       valueType: "switch",
+      render: (text, record, _, action) => (
+        <>
+          <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={record.status} disabled />
+        </>
+      ),
       width: "10%"
     },
     {
@@ -94,7 +110,17 @@ export default () => {
       title: "每天提醒",
       key: "everyday",
       dataIndex: "everyday",
-      valueType: "switch"
+      valueType: "switch",
+      render: (text, record, _, action) => (
+        <>
+          {
+            isToday(record.lastNotified) ?
+              (<CheckCircleOutlined style={{color: "green",width:20}}/>) :""
+              // (<AlertOutlined style={{color: "red",width:20}}/>)
+          }
+          <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={record.everyday} disabled />
+        </>
+      )
     },
     {
       title: "提醒时间",
@@ -140,15 +166,6 @@ export default () => {
     setDataSource(datasource);
   };
 
-  const onSave = (data: DataSourceType) => {
-    let assign = Object.assign([], dataSource);
-    assign.push(data);
-    setStorage_notify(assign);
-    setDataSource(assign);
-
-    //刷新闹钟
-    freshNotify();
-  };
   const freshNotify = () => {
     //清空闹钟
     chrome.alarms.clearAll();
@@ -158,8 +175,10 @@ export default () => {
       let openData = datas
         .filter((item: { status: string; }) => item.status);
 
-      //每日闹钟
-      let everyData = openData.filter((item: { everyday: any; }) => item.everyday);
+      //每日闹钟 除去已经提醒的
+      let everyData = openData
+        .filter((item: { everyday: any; }) => item.everyday)
+        .filter((item: { lastNotified: any; }) => !isToday(item.lastNotified));
       //调整时间
       let justifyData = everyData.map((item: { at_time: string; }) => {
         let today = dayjs().format("YYYY-MM-DD");
@@ -177,7 +196,23 @@ export default () => {
       concat.forEach((item: DataSourceType) => {
         createAlarm(item);
       });
-      message.info("共有" + concat.length + "个闹钟,其中每日闹钟" + everyData.length + "个");
+
+      //将每日闹钟更新
+      everyData.forEach((item: { id: any; }) => {
+        let today = dayjs().format("YYYY-MM-DD");
+        let findIndex = datas.findIndex((data: { id: any; }) => data.id == item.id);
+        datas[findIndex].lastNotified = today;
+        setStorage_notify(datas);
+      });
+
+      const info = (
+        <>
+          <p>共有{concat.length}个提醒</p>
+          <p>其中每日提醒{everyData.length}个</p>
+          <p>普通提醒{concat.length}个</p>
+        </>
+      )
+      message.info(info);
     });
   };
   //创建闹钟
@@ -240,13 +275,13 @@ export default () => {
           type: "multiple",
           editableKeys,
           onSave: async (rowKey, data, row) => {
-            onSave(data);
-            console.log(data);
+            // onSave(data);
+            freshNotify();
           },
           onChange: setEditableRowKeys
         }}
       />
-      <ProCard title="表格数据" headerBordered collapsible defaultCollapsed>
+    {/*  <ProCard title="表格数据" headerBordered collapsible defaultCollapsed>
         <ProFormField
           ignoreFormItem
           fieldProps={{
@@ -258,7 +293,7 @@ export default () => {
           valueType="jsonCode"
           text={JSON.stringify(dataSource)}
         />
-      </ProCard>
+      </ProCard>*/}
     </>
   );
 };
