@@ -27,6 +27,15 @@ export function createUrls(urls) {
   }
 }
 
+// ########## 睡眠时间
+export const waitTime = (time = 100) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, time);
+  });
+};
+
 //######获取所有的缓存
 export function getAllStorageData() {
   // Immediately return a promise and start asynchronous work

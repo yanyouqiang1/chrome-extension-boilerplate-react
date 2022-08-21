@@ -1,31 +1,14 @@
 import type { ProColumns } from "@ant-design/pro-components";
-import { EditableProTable, ProCard, ProFormField } from "@ant-design/pro-components";
+import { EditableProTable} from "@ant-design/pro-components";
 import React, { useEffect, useState } from "react";
 import "@ant-design/pro-components/dist/components.css";
 import dayjs from "dayjs";
 import { Button, message, Switch } from "antd";
-import { AlertOutlined, CheckCircleOutlined } from "@ant-design/icons";
-
-const notify_key = "notify_key";
-
-function getStorage_notify(callback: (result: any) => void) {
-  chrome.storage.local.get([notify_key], result => {
-    callback(result.notify_key);
-  });
-}
-
-function setStorage_notify(value: any) {
-  chrome.storage.local.set({ notify_key: value });
-}
+import { CheckCircleOutlined } from "@ant-design/icons";
 
 
-const waitTime = (time: number = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
+const { getStorage_notify,setStorage_notify,waitTime } = require('../../chromeCommon')
+const {isToday,freshNotify} = require('../../alarmNotify')
 
 type DataSourceType = {
   id: React.Key;
@@ -52,11 +35,6 @@ const defaultData: DataSourceType[] = [
   }
 ];
 
-// 是否今天
-function isToday(date: any): boolean {
-  let today = dayjs().format("YYYY-MM-DD");
-  return today == date;
-}
 
 
 export default () => {
@@ -65,7 +43,7 @@ export default () => {
 
 
   useEffect(() => {
-    getStorage_notify(datas => {
+    getStorage_notify((datas: any) => {
       datas = datas ? datas : defaultData;
       setDataSource(datas);
     });
@@ -166,84 +144,6 @@ export default () => {
     setDataSource(datasource);
   };
 
-  const freshNotify = () => {
-    //清空闹钟
-    chrome.alarms.clearAll();
-
-    getStorage_notify(datas => {
-      //open闹钟
-      let openData = datas
-        .filter((item: { status: string; }) => item.status);
-
-      //每日闹钟 除去已经提醒的
-      let everyData = openData
-        .filter((item: { everyday: any; }) => item.everyday)
-        .filter((item: { lastNotified: any; }) => !isToday(item.lastNotified));
-      //调整时间
-      let justifyData = everyData.map((item: { at_time: string; }) => {
-        let today = dayjs().format("YYYY-MM-DD");
-        let newTime = today + item.at_time.substring(item.at_time.indexOf(" "));
-        item.at_time = newTime;
-        return item;
-      });
-
-      //普通闹钟
-      let normalData = openData.filter((item: { everyday: any; }) => !item.everyday)
-        .filter((item: { at_time: number; }) => Date.parse(String(item.at_time)) > Date.now());
-
-      let concat = normalData.concat(justifyData);
-
-      concat.forEach((item: DataSourceType) => {
-        createAlarm(item);
-      });
-
-      //将每日闹钟更新
-      everyData.forEach((item: { id: any; }) => {
-        let today = dayjs().format("YYYY-MM-DD");
-        let findIndex = datas.findIndex((data: { id: any; }) => data.id == item.id);
-        datas[findIndex].lastNotified = today;
-        setStorage_notify(datas);
-      });
-
-      const info = (
-        <>
-          <p>共有{concat.length}个提醒</p>
-          <p>其中每日提醒{everyData.length}个</p>
-          <p>普通提醒{concat.length}个</p>
-        </>
-      )
-      message.info(info);
-    });
-  };
-  //创建闹钟
-  const createAlarm = (record: DataSourceType) => {
-    chrome.alarms.create(record.id + "", {
-      when: Date.parse(record.at_time + "")
-    });
-  };
-
-  chrome.alarms.onAlarm.addListener(alarm => {
-    getStorage_notify(datas => {
-      let record = datas.filter((item: { id: string; }) => (item.id + "") == alarm.name);
-      createNotify(record[0]);
-    });
-  });
-
-
-  //创建提醒
-  const createNotify = (record: DataSourceType) => {
-    chrome.notifications.create(record.id + "", {
-      iconUrl: chrome.runtime.getURL("logo.png"),
-      title: record.title,
-      type: "basic",
-      message: record.message + "",
-      buttons: [{ title: "Learn More" }],
-      priority: 2
-    }, function(notificationId) {
-      console.log(notificationId);
-    });
-  };
-
   return (
     <>
       <EditableProTable<DataSourceType>
@@ -276,7 +176,8 @@ export default () => {
           editableKeys,
           onSave: async (rowKey, data, row) => {
             // onSave(data);
-            freshNotify();
+            waitTime(200).then(()=> freshNotify())
+
           },
           onChange: setEditableRowKeys
         }}
@@ -294,6 +195,7 @@ export default () => {
           text={JSON.stringify(dataSource)}
         />
       </ProCard>*/}
+
     </>
   );
 };
