@@ -44,15 +44,15 @@
   "commands": {
     "add-tabs": {
       "suggested_key": {
-        "default": "Ctrl+Alt+S",
+        "default": "Ctrl+Shift+S",
         "mac": "Command+Shift+S"
       },
       "description": "add tabs"
     },
     "injectEdit": {
       "suggested_key": {
-        "default": "Ctrl+Alt+I",
-        "mac": "Command+Shift+I"
+        "default": "Ctrl+Shift+1",
+        "mac": "Command+Shift+1"
       },
       "description": "让网页可编辑，复制"
     }
