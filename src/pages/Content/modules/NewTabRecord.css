@@ -1,3 +1,24 @@
+.NTR_dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.NTR_content {
+    width: 500px;
+    height: 300px;
+    margin: 100px auto;
+    background-color: #fefefe;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px darkgray;
+}
+
+
 .btn {
     width: 200px;
     height: 50px;
@@ -11,44 +32,26 @@
     box-shadow: 0 0 5px 5px darkgray;
 }
 
-.dialog {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
 
-.content {
-    width: 500px;
-    height: 300px;
-    margin: 100px auto;
-    background-color: #fefefe;
-    border-radius: 10px;
-    box-shadow: 0 0 5px 5px darkgray;
-}
-.aclose{
+.NTR_aNTR_close{
     width: 500px;
     height: 60px;
     text-align: center;
 }
-.aclose span{
+.NTR_aNTR_close span{
     line-height: 70px;
     font-size: 26px;
     font-weight: 700;
 }
-.contain{
+.NTR_contain{
     width: 500px;
     height: 230px;
     font-size: 20px;
     margin-top: 10px;
-    text-align: center;
+    text-align: left;
 }
 
-.close {
+.NTR_close {
     color: #aaa;
     float: right;
     margin-right: 15px;

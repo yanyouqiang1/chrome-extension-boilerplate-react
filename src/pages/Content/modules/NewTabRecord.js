@@ -1,6 +1,4 @@
-import {Form, message, Modal, Select} from "antd";
-import TextArea from "antd/es/input/TextArea";
-import TagSelect from "../../Function/Office/tabs/TagSelect";
+import {Button, Form, message} from "antd";
 import React, {useState} from "react";
 import randomstring from "rdm-str";
 import {getStorage_record_key, setStorage_record_key} from "../../Function/chromeCommon";
@@ -9,21 +7,21 @@ import $ from 'jquery'
 
 
 const NewTabRecord = (props) => {
-    const [form] = Form.useForm()
-    //model
-    const [isModalVisible, setIsModalVisible] = useState(false);
 
     let {bind} = props;
     const showModal = () => {
-        var show = $(".dialog").css("display");
-        $(".dialog").css("display",show =="none"?"block":"none");
+        var show = $(".NTR_dialog").css("display");
+        $(".NTR_dialog").css("display", show == "none" ? "block" : "none");
     };
     const handleCancel = () => {
-        var show = $(".dialog").css("display");
-        $(".dialog").css("display",show =="none"?"block":"none");
+        var show = $(".NTR_dialog").css("display");
+        $(".NTR_dialog").css("display", show == "none" ? "block" : "none");
     };
 
     bind(showModal, handleCancel)
+
+
+
 
     const handleOk = () => {
         setIsModalVisible(false);
@@ -49,22 +47,27 @@ const NewTabRecord = (props) => {
 
     return (
         <>
+            <style>
+        </style>
             <div>
-                <button className="btn" onClick="show()">点击弹窗</button>
-                <div className="dialog">
-                    <div className="content">
-                        <div className="aclose">
-                            <span>标题</span>
-                            <a className="close" href="javascript:close();">&times;</a>
+                <div className="NTR_dialog">
+                    <div className="NTR_content">
+                        <div className="NTR_aNTR_close">
+                            <span>保存标签</span>
+                            <a className="NTR_close" onClick={handleCancel}>&times;</a>
                         </div>
-                        <div className="contain">
-                            弹窗具体内容
+                        <div className="NTR_contain">
+                            <div>title:{document.title}</div>
+                            <div>url:{window.location.href}</div>
+                            <div>remark:<textarea /></div>
+                            <div>tag:<input /></div>
+                            <button onClick={handleOk}>确认</button>
                         </div>
                     </div>
 
                 </div>
             </div>
-           {/* <Modal title="保存标签" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            {/* <Modal title="保存标签" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form layout="horizontal" form={form}>
                     <Form.Item label="名称" name="name" rules={[
                         {
@@ -89,3 +92,5 @@ const NewTabRecord = (props) => {
 
 
 export default NewTabRecord
+
+
