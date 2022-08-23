@@ -55,13 +55,13 @@ const App = () => {
     }
     return (
         <div style={{marginLeft:10}}>
-            <Tabs defaultActiveKey="2">
-                <TabPane tab="待办事项" key="2">
+            <Tabs defaultActiveKey="1">
+                <TabPane tab="待办事项" key="1">
                     <div style={{width:450}}>
                         <ToDoPart/>
                     </div>
                 </TabPane>
-                <TabPane tab="相关工具" key="1">
+                <TabPane tab="相关工具" key="2">
                     <Menu
                         mode="inline"
                         openKeys={openKeys}
@@ -72,6 +72,9 @@ const App = () => {
                         }}
                         items={items}
                     />
+                </TabPane>
+                <TabPane tab="立竿见影" key="3">
+
                 </TabPane>
 
             </Tabs>

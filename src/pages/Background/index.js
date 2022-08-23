@@ -1,7 +1,7 @@
 import {
     getCurrentTab,
 } from "../Function/chromeCommon";
-import { freshNotify } from "../Function/alarmNotify";
+import {freshNotify} from "../Function/alarmNotify";
 
 
 //消息格式
@@ -23,9 +23,19 @@ chrome.commands.onCommand.addListener((command) => {
             chrome.tabs.sendMessage(tabs[0].id, message);
         })
     }
+    if (command == 'injectEdit') {
+        getCurrentTab().then(tabs => {
+            //发送消息
+            const message = {
+                type: "injectEdit",
+                data: "success"
+            }
+            chrome.tabs.sendMessage(tabs[0].id, message);
+        })
+    }
 });
 
-chrome.runtime.onStartup.addListener(()=>{
+chrome.runtime.onStartup.addListener(() => {
     freshNotify();
     console.log("iiiiiiiiii");
 })

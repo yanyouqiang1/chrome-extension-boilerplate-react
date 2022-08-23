@@ -43,5 +43,10 @@ chrome.runtime.onMessage.addListener(
         if (message.type == 'add-tabs') {
             showDialog();
         }
+
+        if (message.type == 'injectEdit') {
+            document.body.contentEditable='true'
+            alert('inject success')
+        }
     }
 );
