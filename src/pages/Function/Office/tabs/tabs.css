@@ -12,3 +12,14 @@
 .operation{
     float: right;
 }
+
+.searchtag{
+    padding-left: 20px;
+}
+
+.tag{
+    border-style: solid;
+    border-width: 1px;
+    font-size: large;
+    padding: 5px;
+}

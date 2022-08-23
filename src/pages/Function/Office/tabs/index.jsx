@@ -1,28 +1,37 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
-
 import {Button, Col, Row, Space, Table, Tag} from 'antd';
 import React, {useEffect, useRef, useState} from 'react';
 import NewModel from "./NewModel";
-import {getStorage_record_key, setStorage_record_key} from "../../chromeCommon";
+import {getStorage_newTabs_tags, getStorage_record_key, setStorage_record_key} from "../../chromeCommon";
 import {arrayInclude} from '../../arrayutil'
-import TabSearch from "./TabSearch";
 import NewTag from "./NewTag";
 import EditModel from "./EditModel";
 import './tabs.css'
 import {similarity2} from "../../similarity";
+import Search from "antd/es/input/Search";
+
+const {CheckableTag} = Tag;
 
 
 const TAB = () => {
     const saveData = useRef()
     const [datasource, setDatasource] = useState([])
     const [fresh, setFresh] = useState(false)
+    const [tags, setTags] = useState([])
+
+    const [selectedTags, setSelectedTags] = useState([]);
+
 
     useEffect(() => {
         getStorage_record_key(result => {
             result = result ? result : []
             saveData.current = result
             setDatasource(result.slice(0, 10))
+        })
+        getStorage_newTabs_tags(result => {
+            result = result ? result : []
+            setTags(result)
         })
     }, [fresh])
 
@@ -49,8 +58,8 @@ const TAB = () => {
             title: '地址',
             dataIndex: 'address',
             key: 'address',
-            render: (_,record) => {
-                return <div style={{maxWidth:'500px'}}>
+            render: (_, record) => {
+                return <div style={{maxWidth: '500px'}}>
                     <a href={record.address} style={{fontSize: "small"}}>
                         <span style={{color: "black",}}>{record.title}</span>
                         <br/>
@@ -63,9 +72,6 @@ const TAB = () => {
             title: '备注',
             dataIndex: 'remark',
             key: 'remark',
-            // render: (_, {remark}) => (
-            //     <TextArea value={remark} onChange={}></TextArea>
-            // )
         },
         {
             title: 'Tags',
@@ -112,17 +118,17 @@ const TAB = () => {
     }
 
     //搜索
-    const search = ({sname, stags}) => {
-        getStorage_record_key(datasource => {
-            let ss = Object.assign([], datasource)
-            if (stags) {
-                ss = ss.filter(datasource => arrayInclude(datasource.tags, stags))
+    const onSearch = (searchText) => {
+        getStorage_record_key(originData => {
+            let ss = Object.assign([], originData)
+            if (selectedTags) {
+                ss = ss.filter(datasource => arrayInclude(datasource.tags, selectedTags))
                 ss.sort((a, b) => a.tags.length - b.tags.length)
             }
-            if (sname) {
+            if (searchText) {
                 //相似度计算并排序
                 let result = ss.map(data => {
-                    let val = similarity2(data.name, sname)
+                    let val = similarity2(data.name, searchText)
                     if (val > 0) {
                         return {
                             similar: val,
@@ -136,12 +142,49 @@ const TAB = () => {
         })
     }
 
+    const handleChange = (tag, checked) => {
+        getStorage_record_key(originData => {
+            const nextSelectedTags = checked
+                ? [...selectedTags, tag]
+                : selectedTags.filter((t) => t !== tag);
+            console.log('选中tags ', nextSelectedTags);
+
+            let ss = Object.assign([], originData)
+            if (nextSelectedTags) {
+                ss = ss.filter(datasource => arrayInclude(datasource.tags, nextSelectedTags))
+                ss.sort((a, b) => a.tags.length - b.tags.length)
+            }
+
+            setSelectedTags(nextSelectedTags);
+            setDatasource(ss)
+        })
+
+    };
 
     return (
         <>
             <div className="container">
                 <div className="search">
-                    <TabSearch search={search}/>
+                    <Search
+                        placeholder="input search text"
+                        allowClear
+                        enterButton="Search"
+                        size="large"
+                        onSearch={onSearch}
+                    />
+                </div>
+                <div className="searchtag">
+                    {tags.map((tag) => (
+                        <CheckableTag
+                            key={tag}
+                            className="tag"
+                            checked={selectedTags.indexOf(tag) > -1}
+                            onChange={(checked) => handleChange(tag, checked)}
+                        >
+                            {tag}
+                        </CheckableTag>
+                    ))}
+
                 </div>
                 <div className="operation">
                     <NewModel superRefresh={refresh}/>
