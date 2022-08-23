@@ -1,12 +1,13 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
-import { Tabs } from 'antd';
+import {Tabs} from 'antd';
 import {MailOutlined, SettingOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import React, {useState} from 'react';
 import ToDoPart from "../Function/Office/todolist/todoPart";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
+
 function getItem(label, key, icon, children, type) {
     return {
         key,
@@ -54,10 +55,10 @@ const App = () => {
         w.location.href = item.key
     }
     return (
-        <div style={{marginLeft:10}}>
+        <div style={{marginLeft: 10}}>
             <Tabs defaultActiveKey="1">
                 <TabPane tab="待办事项" key="1">
-                    <div style={{width:450}}>
+                    <div style={{width: 450}}>
                         <ToDoPart/>
                     </div>
                 </TabPane>
@@ -74,7 +75,9 @@ const App = () => {
                     />
                 </TabPane>
                 <TabPane tab="立竿见影" key="3">
-
+                    <div style={{
+                        width: 450,
+                    }}></div>
                 </TabPane>
 
             </Tabs>

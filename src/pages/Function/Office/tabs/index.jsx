@@ -123,7 +123,16 @@ const TAB = () => {
             let ss = Object.assign([], originData)
             if (selectedTags) {
                 ss = ss.filter(datasource => arrayInclude(datasource.tags, selectedTags))
-                ss.sort((a, b) => a.tags.length - b.tags.length)
+                ss.sort((a, b) => {
+                    if (!a.tags) {
+                        return -1;
+                    } else if (!b.tags) {
+                        return 1;
+                    } else {
+                        return a.tags.length - b.tags.length;
+                    }
+
+                })
             }
             if (searchText) {
                 //相似度计算并排序

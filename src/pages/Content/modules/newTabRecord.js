@@ -5,6 +5,10 @@ export function newTabRecordTest() {
 
     getStorage_record_key(records => {
         const name = prompt("输入要保存标签的名称:")
+        if (name == null) {
+            console.log("cancel")
+            return;
+        }
         const key = randomstring(7);
         const record = {
             key: key,
