@@ -20,7 +20,6 @@ const MyPanel = () => {
         chrome.devtools.network.getHAR(hars => {
             const {entries} = hars
             let filter = entries.filter(item =>
-                item.response.content.mimeType.includes("plain") ||
                 item.response.content.mimeType.includes("json")
             );
 
@@ -70,12 +69,7 @@ const MyPanel = () => {
                         >
                             <List.Item.Meta
                                 avatar={<Typography.Text>{index + 1}</Typography.Text>}
-                                title={
-                                <Tooltip title={JSON.stringify(entry.request)}>
-                                    {entry.request.url}
-                                </Tooltip>
-
-                            }
+                                title={entry.request.url.substring(0,80)}
                             />
                         </List.Item>
                     )}
