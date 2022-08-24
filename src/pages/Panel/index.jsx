@@ -1,60 +1,90 @@
-import React, { useEffect, useState } from "react";
-import { render } from "react-dom";
+import React, {useEffect, useState} from "react";
+import {render} from "react-dom";
+import {Avatar, Button, Card, List, message, Tooltip, Typography} from "antd";
+import 'antd/dist/antd.css';
+import {getStorage_fetch, setStorage_fetch} from "../Function/chromeCommon";
+import randomstring from "rdm-str";
 
-import "./index.css";
-import { Button } from "antd";
 
-const allData = {};
-
-const handleData = (tempRequest) => {
-  const { _resourceType, response, request } = tempRequest;
-  const { url } = request;
-  const { content } = response;
-  const [type, mineType] = content.mimeType.split("/"); // image/gif
-  const tempVal = {
-    type,
-    url,
-    mineType,
-    tempRequest
-  };
-  allData[_resourceType]
-    ? allData[_resourceType].push(tempVal)
-    : (allData[_resourceType] = [tempVal]);
-};
-
-chrome.devtools.network.onRequestFinished.addListener(function(request) {
-  handleData(request);
-});
+function log(str) {
+    chrome.devtools.inspectedWindow.eval(
+        `console.log(${str})`
+    );
+}
 
 const MyPanel = () => {
-  const [result, setResult] = useState("");
+    const [entrys, setEntrys] = useState("");
+    const [fresh, setFresh] = useState(false);
 
-  function log(str) {
-    chrome.devtools.inspectedWindow.eval(
-      `console.log(${str})`
+    useEffect(() => {
+        chrome.devtools.network.getHAR(hars => {
+            const {entries} = hars
+            let filter = entries.filter(item =>
+                item.response.content.mimeType.includes("plain") ||
+                item.response.content.mimeType.includes("json")
+            );
+
+            log(JSON.stringify((filter)))
+            setEntrys(filter)
+        })
+    }, [fresh]);
+
+    const onfresh = () => {
+        setFresh(!fresh)
+    };
+
+    const saveRecord = (entry) => {
+
+        const name = prompt("需要一个名字")
+        const {request} =  entry
+
+        getStorage_fetch(datas => {
+            datas = datas ? datas : [];
+            const newData = {
+                key: randomstring(7),
+                name: name,
+                request
+            }
+
+            datas.unshift(newData)
+
+            setStorage_fetch(datas)
+            message.success("success！")
+        })
+
+
+    }
+
+    return (
+        <>
+            <Card extra={<Button onClick={onfresh} type={"primary"}>Fresh</Button>}>
+                <List
+                    className="demo-loadmore-list"
+                    itemLayout="horizontal"
+                    dataSource={entrys}
+                    renderItem={(entry, index) => (
+                        <List.Item
+                            actions={[
+                                <Button type="link" onClick={() => saveRecord(entry)}>save</Button>,
+                            ]}
+                        >
+                            <List.Item.Meta
+                                avatar={<Typography.Text>{index + 1}</Typography.Text>}
+                                title={
+                                <Tooltip title={JSON.stringify(entry.request)}>
+                                    {entry.request.url}
+                                </Tooltip>
+
+                            }
+                            />
+                        </List.Item>
+                    )}
+                />
+            </Card>
+        </>
+
     );
-  }
-
-  useEffect(() => {
-    setResult(JSON.stringify(allData));
-  }, []);
-
-  const test = () => {
-    chrome.devtools.network.getHAR(datas => {
-        // log(JSON.stringify(datas));
-        let filter = datas.entries.filter(ll => ll._resourceType == "xhr");
-        setResult(JSON.stringify(filter));
-      }
-    );
-  };
-  return (
-    <>
-      <Button onClick={test}>刷新43</Button>
-      <textarea value={result}></textarea>
-    </>
-
-  );
 };
 
 
-render(<MyPanel />, window.document.querySelector("#app-container"));
+render(<MyPanel/>, window.document.querySelector("#app-container"));
