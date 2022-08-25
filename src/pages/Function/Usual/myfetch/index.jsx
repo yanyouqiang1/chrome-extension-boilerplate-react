@@ -13,10 +13,24 @@ const { Panel } = Collapse;
 const FetchList = () => {
   const [fetchList, setFetchList] = useState([]);
   const [fetchResult, setFetchResult] = useState([]);
+  const [inputFields, setInputFields] = useState({});
 
   useEffect(() => {
     getStorage_fetch(data => {
-      setFetchList(data ? data : []);
+      let newData = data ? data : [];
+
+
+      let fileds = {}
+      newData.forEach((it,index)=>{
+        fileds[it.key] = {
+          host: it.host,
+          name: it.name
+        }
+      })
+      setInputFields(fileds)
+      setFetchList(newData);
+
+
     });
 
   }, []);
@@ -31,8 +45,8 @@ const FetchList = () => {
 
 
   const itemDelete = (item) => {
-    if (!confirm("确认删除？")){
-      return
+    if (!confirm("确认删除？")) {
+      return;
     }
     let assign = Object.assign([], fetchList);
 
@@ -44,50 +58,50 @@ const FetchList = () => {
   };
 
   const itemSave = (item) => {
-    let newHost = document.querySelector("#url_" + item.key).value;
-    let newName = document.querySelector("#name_" + item.key).value;
+    let newHost = inputFields[item.key].host
+    let newName = inputFields[item.key].name
 
     let assign = Object.assign([], fetchList);
-    assign.forEach((it,index)=>{
-      if (it.key==item.key){
-        assign[index].name = newName
-        assign[index].host = newHost
+    assign.forEach((it, index) => {
+      if (it.key == item.key) {
+        assign[index].name = newName;
+        assign[index].host = newHost;
       }
-    })
+    });
 
     setStorage_fetch(assign);
     setFetchList(assign);
 
     message.success("保存成功！", 3);
 
-  }
+  };
   const doTry = (item) => {
     //替换URL
     let { url } = item.request;
-    let newHost = document.querySelector("#url_" + item.key).value;
+    let newHost = inputFields[item.key].host
     url = replaceHost(url, newHost);
 
 
     //headers
-    const headers = {}
-    item.request.headers.forEach((it,index)=>{
-      let name = it.name.replace(":",'')
-      headers[name] = it.value
-    })
+    const headers = {};
+    item.request.headers.forEach((it, index) => {
+      let name = it.name.replace(":", "");
+      headers[name] = it.value;
+    });
     //cookies
 
 
-    let responsePromise = fetch(url,{
+    let responsePromise = fetch(url, {
       headers: headers,
       method: item.request.method,
       body: item.request.body
     });
 
-    responsePromise.then(response=>response.json()).then(jsonResult=>{
-      console.log(jsonResult);
-      setFetchResult(jsonResult)
-      setIsModalVisible(true)
-    })
+    responsePromise.then(response => response.text()).then(text => {
+      console.log(text);
+      setFetchResult(JSON.parse(text));
+      setIsModalVisible(true);
+    });
 
   };
 
@@ -99,9 +113,18 @@ const FetchList = () => {
     return url;
   };
 
-  const nameChange=(item)=>{
+  const nameChange = (e,item) => {
+    let assign = Object.assign({},inputFields);
+    assign[item.key].name = e.target.value;
 
-  }
+    setInputFields(assign)
+  };
+  const hostChange = (e,item) => {
+    let assign = Object.assign({},inputFields);
+    assign[item.key].host = e.target.value;
+
+    setInputFields(assign)
+  };
   return (
     <>
       <Modal title="结果展示" visible={isModalVisible} onOk={handleCancel} onCancel={handleCancel}>
@@ -111,20 +134,28 @@ const FetchList = () => {
       <Row>
         {
           fetchList.map(item =>
-            <Col span={24}>
+            <Col span={24} key={item.key}>
               <Collapse>
                 <Panel header={item.name} key="1" extra={<>
-                  <Button onClick={(e) => {itemDelete(item);e.stopPropagation()}} danger type={"link"}>delete</Button>
-                  <Button onClick={(e) => {itemSave(item);e.stopPropagation()}} type={"link"}>save</Button>
+                  <Button onClick={(e) => {
+                    itemDelete(item);
+                    e.stopPropagation();
+                  }} danger type={"link"}>delete</Button>
+                  <Button onClick={(e) => {
+                    itemSave(item);
+                    e.stopPropagation();
+                  }} type={"link"}>save</Button>
 
                 </>}>
                   <Row className="row">
                     <Col span={2} className="left">名称:</Col>
-                    <Col span={20}><input className="inputText" type="text" value={item.name} id={"name_" + item.key} onChange={()=>nameChange(item)}/></Col>
+                    <Col span={20}><input className="inputText" type="text" value={inputFields[item.key].name}
+                                          onChange={(e) => nameChange(e,item)} /></Col>
                   </Row>
                   <Row className="row">
                     <Col span={2} className="left">url:</Col>
-                    <Col span={20}><input className="inputText" type="text" value={item.host?item.host:''}  id={"url_" + item.key} /></Col>
+                    <Col span={20}><input className="inputText" type="text" value={inputFields[item.key].host? inputFields[item.key].host : ""}
+                                          onChange={(e) => hostChange(e,item)}  /></Col>
                   </Row>
                   <Row className="row">
                     <Col span={2} className="left">headers:</Col>
@@ -132,7 +163,7 @@ const FetchList = () => {
                   </Row>
                   <Row>
                     <Col span={22}>
-                      <Button onClick={()=>doTry(item)} type={"primary"}>Try</Button>
+                      <Button onClick={() => doTry(item)} type={"primary"}>Try</Button>
                     </Col>
                   </Row>
 

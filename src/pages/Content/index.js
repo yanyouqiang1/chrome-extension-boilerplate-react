@@ -19,9 +19,3 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
-
-window.onload=()=>{
-  chrome.cookies.getAll({}).then(data=>{
-    alert(data)
-  })
-}
