@@ -13,9 +13,8 @@ chrome.runtime.onMessage.addListener(
         }
 
         if (message.type=='showCookies'){
-          chrome.cookies.get({}).then(data=>{
-            alert(data)
-          })
+            message.data.filter
+            console.log(message.data)
         }
     }
 );

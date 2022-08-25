@@ -36,14 +36,18 @@ chrome.commands.onCommand.addListener((command) => {
     if (command == 'showCookies') {
         getCurrentTab().then(tabs => {
             //发送消息
-            const message = {
-                type: "showCookies",
-                data: "success"
-            }
-            chrome.tabs.sendMessage(tabs[0].id, message);
+            chrome.cookies.getAll({},cookies => {
+                const message = {
+                    type: "showCookies",
+                    data: cookies
+                }
+                chrome.tabs.sendMessage(tabs[0].id, message);
+            })
+
         })
     }
 });
+
 
 chrome.runtime.onStartup.addListener(() => {
     freshNotify();
