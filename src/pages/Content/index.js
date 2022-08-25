@@ -11,5 +11,17 @@ chrome.runtime.onMessage.addListener(
             document.body.contentEditable = 'true'
             alert('inject success')
         }
+
+        if (message.type=='showCookies'){
+          chrome.cookies.get({}).then(data=>{
+            alert(data)
+          })
+        }
     }
 );
+
+window.onload=()=>{
+  chrome.cookies.getAll({}).then(data=>{
+    alert(data)
+  })
+}

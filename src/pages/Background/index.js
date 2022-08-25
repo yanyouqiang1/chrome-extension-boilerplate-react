@@ -33,6 +33,16 @@ chrome.commands.onCommand.addListener((command) => {
             chrome.tabs.sendMessage(tabs[0].id, message);
         })
     }
+    if (command == 'showCookies') {
+        getCurrentTab().then(tabs => {
+            //发送消息
+            const message = {
+                type: "showCookies",
+                data: "success"
+            }
+            chrome.tabs.sendMessage(tabs[0].id, message);
+        })
+    }
 });
 
 chrome.runtime.onStartup.addListener(() => {

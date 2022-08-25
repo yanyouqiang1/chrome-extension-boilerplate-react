@@ -32,7 +32,8 @@
     "storage",
     "tabs",
     "alarms",
-    "notifications"
+    "notifications",
+    "cookies"
   ],
   "sandbox": {
     "pages": ["sandbox.html"]
@@ -55,6 +56,13 @@
         "mac": "Command+Shift+1"
       },
       "description": "让网页可编辑，复制"
+    },
+    "showCookies": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2",
+        "mac": "Command+Shift+2"
+      },
+      "description": "showCookies"
     }
   }
 }
