@@ -184,7 +184,7 @@ const FetchList = () => {
                   <Row className="row">
                     <Col span={2} className="left">headers:</Col>
                     <Col span={20}>
-                      <JsonEditor value = {inputFields[item.key].request} onChange={(value)=>requestChange(value,item)} height="90vh"/>
+                      <JsonEditor value = {inputFields[item.key].request} onChange={(value)=>requestChange(value,item)} height="40vh"/>
                       {/*<JSONInput width="100%" placeholder={item.request} id="jsonInput" />*/}
                     </Col>
                   </Row>
@@ -200,12 +200,6 @@ const FetchList = () => {
             </Col>
           )
         }
-      </Row>
-
-      <Row>
-        <Col span={24}>
-          <JsonEditor />
-        </Col>
       </Row>
 
     </>
