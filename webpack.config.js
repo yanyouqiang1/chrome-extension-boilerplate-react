@@ -83,6 +83,7 @@ var options = {
                         },
                     },
                 ],
+
             },
             {
                 test: /\.less$/,

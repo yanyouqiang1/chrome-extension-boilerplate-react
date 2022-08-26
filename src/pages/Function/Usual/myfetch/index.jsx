@@ -4,8 +4,9 @@ import "antd/dist/antd.css";
 import { getStorage_fetch, setStorage_fetch } from "../../chromeCommon";
 import { Button, Col, Collapse, message, Modal, Row } from "antd";
 import ReactJson from "react-json-view";
-import JSONInput from "react-json-editor-ajrm";
 import "./index.css";
+import JsonEditor from "../../../component/JsonEditor";
+import jsonFormat from 'json-format'
 
 
 const { Panel } = Collapse;
@@ -24,7 +25,8 @@ const FetchList = () => {
       newData.forEach((it,index)=>{
         fileds[it.key] = {
           host: it.host,
-          name: it.name
+          name: it.name,
+          request: jsonFormat(it.request)
         }
       })
       setInputFields(fileds)
@@ -58,6 +60,14 @@ const FetchList = () => {
   };
 
   const itemSave = (item) => {
+    let request;
+    try{
+      request = JSON.parse(inputFields[item.key].request)
+    }catch (e) {
+      message.error("request json格式存在错误！")
+      return
+    }
+
     let newHost = inputFields[item.key].host
     let newName = inputFields[item.key].name
 
@@ -66,6 +76,7 @@ const FetchList = () => {
       if (it.key == item.key) {
         assign[index].name = newName;
         assign[index].host = newHost;
+        assign[index].request = request
       }
     });
 
@@ -76,8 +87,16 @@ const FetchList = () => {
 
   };
   const doTry = (item) => {
+    let request;
+    try{
+      request = JSON.parse(inputFields[item.key].request)
+    }catch (e) {
+      message.error("request json格式存在错误！")
+      return
+    }
+
     //替换URL
-    let { url } = item.request;
+    let { url } = request;
     let newHost = inputFields[item.key].host
     url = replaceHost(url, newHost);
 
@@ -93,8 +112,8 @@ const FetchList = () => {
 
     let responsePromise = fetch(url, {
       headers: headers,
-      method: item.request.method,
-      body: item.request.body
+      method: request.method,
+      body: request.body
     });
 
     responsePromise.then(response => response.text()).then(text => {
@@ -125,6 +144,11 @@ const FetchList = () => {
 
     setInputFields(assign)
   };
+  const requestChange = (value,item) => {
+    let assign = Object.assign({},inputFields);
+    assign[item.key].request = value
+    setInputFields(assign)
+  }
   return (
     <>
       <Modal title="结果展示" visible={isModalVisible} onOk={handleCancel} onCancel={handleCancel}>
@@ -159,7 +183,10 @@ const FetchList = () => {
                   </Row>
                   <Row className="row">
                     <Col span={2} className="left">headers:</Col>
-                    <Col span={20}><JSONInput width="100%" placeholder={item.request} id="jsonInput" /></Col>
+                    <Col span={20}>
+                      <JsonEditor value = {inputFields[item.key].request} onChange={(value)=>requestChange(value,item)} height="90vh"/>
+                      {/*<JSONInput width="100%" placeholder={item.request} id="jsonInput" />*/}
+                    </Col>
                   </Row>
                   <Row>
                     <Col span={22}>
@@ -175,6 +202,11 @@ const FetchList = () => {
         }
       </Row>
 
+      <Row>
+        <Col span={24}>
+          <JsonEditor />
+        </Col>
+      </Row>
 
     </>
   );
