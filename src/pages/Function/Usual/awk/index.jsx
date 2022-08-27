@@ -7,43 +7,67 @@ import 'antd/dist/antd.css';
 import './index.css'
 
 
-
-
 const Awk = () => {
-    const [evalStr, setEvalStr] = useState('');
+    const [evalStr, setEvalStr] = useState(`
+    //str 每行
+    //index 下标
+    //size 总行数
+    function handleString(str,index,{size}){
+    }`
+    );
     const [data, setData] = useState('');
     const [result, setResult] = useState('');
+
+    //监听eval回调
+    window.addEventListener('message', (event) => {
+        if (event.data.identify=='awkResult'){
+            console.log('awkResult', event.data);
+            setResult(event.data.data.join('\n'))
+        }
+
+    });
+    //发送消息，进行eval计算
+    const sendToEval = (lines,func) => {
+        const iframe = document.querySelector('#sandbox');
+        let message = {
+            identify: "evalAWK",
+            data: {
+                lines: lines,
+                func: func
+            }
+        }
+        iframe.contentWindow.postMessage(message, '*');
+    }
 
     const evalStrChange = (value) => {
         setEvalStr(value)
     }
 
-    const dataChange=(e)=>{
+    const dataChange = (e) => {
         setData(e.target.value)
     }
     const doCalc = () => {
-        let eval1 = eval(parseEvalStr());
-        setResult(eval1)
+        // console.log(parseEvalStr())
+        sendToEval(data,evalStr);
     }
 
-    function parseEvalStr(){
+    function parseEvalStr() {
         return `
         function calculate(){
-            function handleString(str,index,strInfo){
-                ${data}
-            }
-
-            let strings = data.split('\n');
+            ${evalStr};
+          
+            
+            let strings = "${data}".split('\n');
             let strInfo={
                 size: strings.length
-            }
-            let result = []
+            };
+            let result = [];
             strings.forEach((str,index)=>{
                 result.push(handleString(str,index,strInfo))
-            })
-            return result
-        }
-        calculate()
+            });
+            return result;
+        };
+        calculate();
         `
     }
 
@@ -59,7 +83,8 @@ const Awk = () => {
                     }>
                         <Row>
                             <Col span={20}>
-                                <JsonEditor height="40vh" language="javascript" value={evalStr} onChange={evalStrChange}/>
+                                <JsonEditor height="40vh" language="javascript" value={evalStr}
+                                            onChange={evalStrChange}/>
                             </Col>
                             <Col span={4} className="templateCol">
                                 <Card.Grid className="cardGrid">Content</Card.Grid>
