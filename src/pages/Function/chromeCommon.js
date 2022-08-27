@@ -165,3 +165,16 @@ export function getStorage_notify(callback) {
 export function setStorage_notify(value) {
   chrome.storage.local.set({ notify_key: value });
 }
+
+//######## notify
+const awk_key = "awk_key";
+
+export function getStorage_awk(callback) {
+  chrome.storage.local.get([awk_key], result => {
+    callback(result.awk_key);
+  });
+}
+
+export function setStorage_awk(value) {
+  chrome.storage.local.set({ awk_key: value });
+}

@@ -19,7 +19,8 @@
             eval(func)
             let strings = lines.split('\n');
             let strInfo={
-                size: strings.length
+                size: strings.length,
+                originStr: lines
             };
             let result = [];
             strings.forEach((str,index)=>{
