@@ -6,6 +6,7 @@ loader.config({ monaco });
 
 const JsonEditor = (props) => {
     const {
+        language='json',
         value,
         height,
         onMount=null,
@@ -16,9 +17,9 @@ const JsonEditor = (props) => {
         <Editor
             height={height}
             onChange={onChange}
-            defaultLanguage="json"
+            defaultLanguage={language}
             value={value}
-            defaultValue="// some comment"
+            defaultValue=""
         />
     );
 }

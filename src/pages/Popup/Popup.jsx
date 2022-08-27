@@ -33,6 +33,7 @@ const items = [
         getItem('Fetch管理', 'myfetch.html'),
         getItem('文件比对', 'filediff.html'),
         getItem('html渲染', 'httpstrShow.html'),
+        getItem('单行文本处理', 'awk.html'),
     ]),
 ]; // submenu keys of first level
 

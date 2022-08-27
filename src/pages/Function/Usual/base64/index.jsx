@@ -1,6 +1,5 @@
 import {render} from "react-dom";
 import React, {useState} from "react";
-import {Card, Col, Divider, Row} from 'antd';
 import 'antd/dist/antd.css';
 
 import {InboxOutlined} from '@ant-design/icons';

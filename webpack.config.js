@@ -51,6 +51,7 @@ var options = {
         textRecord: path.join(__dirname, 'src', 'pages', 'Function','Usual','textRecord', 'index.jsx'),
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
         filediff: path.join(__dirname, 'src', 'pages', 'Function','Usual','filediff', 'index.jsx'),
+        awk: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
     },
@@ -295,6 +296,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Usual','filediff', 'index.html'),
             filename: 'filediff.html',
             chunks: ['filediff'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.html'),
+            filename: 'awk.html',
+            chunks: ['awk'],
             cache: false,
         }),
         new HtmlWebpackPlugin({
