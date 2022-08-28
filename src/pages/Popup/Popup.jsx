@@ -35,6 +35,9 @@ const items = [
         getItem('html渲染', 'httpstrShow.html'),
         getItem('单行文本处理', 'awk.html'),
     ]),
+    getItem('三方集成', 'sub3', <SettingOutlined/>, [
+        getItem('谷歌翻译', 'https://translate.google.cn/'),
+    ]),
 ]; // submenu keys of first level
 
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
@@ -78,7 +81,9 @@ const App = () => {
                 <TabPane tab="立竿见影" key="3">
                     <div style={{
                         width: 450,
-                    }}></div>
+                    }}>
+
+                    </div>
                 </TabPane>
 
             </Tabs>
