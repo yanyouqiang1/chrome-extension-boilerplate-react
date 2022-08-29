@@ -11,6 +11,19 @@ import randomstring from "rdm-str";
 
 const Awk = () => {
     const [evalStr, setEvalStr] = useState(`
+    function handle(strs){
+     let strings = strs.split('\\n');
+            let strInfo={
+                size: strings.length,
+                originStr: strs
+            };
+            let result = [];
+            strings.forEach((str,index)=>{
+                result.push(handleString(str,index,strInfo))
+            });
+         return result;
+    }
+    
     //str 每行
     //index 下标
     //size 总行数

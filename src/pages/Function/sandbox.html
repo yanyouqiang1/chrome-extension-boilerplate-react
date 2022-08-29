@@ -17,15 +17,7 @@
             const {lines,func} = event.data.data
             //方法载入内存
             eval(func)
-            let strings = lines.split('\n');
-            let strInfo={
-                size: strings.length,
-                originStr: lines
-            };
-            let result = [];
-            strings.forEach((str,index)=>{
-                result.push(handleString(str,index,strInfo))
-            });
+            let result = handle(lines)
             //回送消息
             backMessage = {
                 identify: 'awkResult',
