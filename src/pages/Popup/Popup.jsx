@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import {render} from "react-dom";
 import {Tabs} from 'antd';
-import {MailOutlined, SettingOutlined} from '@ant-design/icons';
+import { ApiOutlined, ClockCircleOutlined, FunctionOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
 import {Menu} from 'antd';
 import React, {useState} from 'react';
 import ToDoPart from "../Function/Office/todolist/todoPart";
@@ -25,23 +25,26 @@ const items = [
         getItem('ToDo列表', 'todolist.html'),
         getItem('通知列表', 'notify.html'),
     ]),
-    getItem('常用功能', 'sub2', <SettingOutlined/>, [
+    getItem('记录工具', 'sub2', <ClockCircleOutlined />, [
+        getItem('Fetch管理', 'myfetch.html'),
+        getItem('片段管理', 'fragement.html'),
+        getItem('响应修改', 'webRequest.html'),
+        getItem('文本记录', 'textRecord.html'),
+    ]),
+    getItem('常用功能', 'sub3', <FunctionOutlined />, [
         getItem('YAML/JSON工具', 'yml.html'),
         getItem('BASE64加密', 'base64.html'),
-        getItem('文本记录', 'textRecord.html'),
-        getItem('片段管理', 'fragement.html'),
-        getItem('Fetch管理', 'myfetch.html'),
         getItem('文件比对', 'filediff.html'),
         getItem('html渲染', 'httpstrShow.html'),
         getItem('单行文本处理', 'awk.html'),
-        getItem('request修改', 'webRequest.html'),
+
     ]),
-    getItem('三方集成', 'sub3', <SettingOutlined/>, [
+    getItem('三方集成', 'sub4', <ApiOutlined />, [
         getItem('谷歌翻译', 'https://translate.google.cn/'),
     ]),
 ]; // submenu keys of first level
 
-const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+const rootSubmenuKeys = ['sub1', 'sub2','sub3', 'sub4'];
 
 const App = () => {
     const [openKeys, setOpenKeys] = useState(['sub1']);
