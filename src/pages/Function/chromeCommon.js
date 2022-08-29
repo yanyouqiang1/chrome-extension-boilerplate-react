@@ -166,7 +166,7 @@ export function setStorage_notify(value) {
   chrome.storage.local.set({ notify_key: value });
 }
 
-//######## notify
+//######## awk
 const awk_key = "awk_key";
 
 export function getStorage_awk(callback) {
@@ -177,4 +177,18 @@ export function getStorage_awk(callback) {
 
 export function setStorage_awk(value) {
   chrome.storage.local.set({ awk_key: value });
+}
+
+
+//######## awk
+const requestRevise_key = "requestRevise_key";
+
+export function getStorage_requestRevise(callback) {
+  chrome.storage.local.get([requestRevise_key], result => {
+    callback(result.requestRevise_key);
+  });
+}
+
+export function setStorage_requestRevise(value) {
+  chrome.storage.local.set({ requestRevise_key: value });
 }

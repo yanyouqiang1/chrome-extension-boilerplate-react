@@ -33,7 +33,8 @@
     "tabs",
     "alarms",
     "notifications",
-    "cookies"
+    "cookies",
+    "webRequest"
   ],
   "sandbox": {
     "pages": ["sandbox.html"]

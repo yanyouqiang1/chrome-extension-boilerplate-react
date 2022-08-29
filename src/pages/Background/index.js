@@ -1,5 +1,5 @@
 import {
-    getCurrentTab,
+    getCurrentTab, getStorage_requestRevise,
 } from "../Function/chromeCommon";
 import {freshNotify} from "../Function/alarmNotify";
 
@@ -36,7 +36,7 @@ chrome.commands.onCommand.addListener((command) => {
     if (command == 'showCookies') {
         getCurrentTab().then(tabs => {
             //发送消息
-            chrome.cookies.getAll({},cookies => {
+            chrome.cookies.getAll({}, cookies => {
                 const message = {
                     type: "showCookies",
                     data: cookies
@@ -51,8 +51,38 @@ chrome.commands.onCommand.addListener((command) => {
 
 chrome.runtime.onStartup.addListener(() => {
     freshNotify();
-    console.log("iiiiiiiiii");
+    console.log("开启闹钟");
 })
-// //开启闹钟
-// freshNotify();
-// console.log("open notify");
+
+
+chrome.runtime.onMessage.addListener((request, sender, res) => {
+    /*
+    request = {
+        type: "",
+        data: ""
+    }*/
+    if (request.type == 'requestRuleFresh') {
+        freshRequestRule();
+        console.log("刷新规则")
+    }
+})
+
+function freshRequestRule(){
+    getStorage_requestRevise(datas=>{
+        console.log("webRequest启动")
+        datas = datas || []
+        datas.forEach(item=>{
+            chrome.webRequest.onCompleted.addListener((_) => {
+                console.log("触发了",item.url)
+                return item.data
+            }, item.url)
+        })
+
+    })
+}
+
+
+// freshRequestRule();
+
+
+
