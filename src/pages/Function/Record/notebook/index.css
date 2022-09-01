@@ -1,0 +1,18 @@
+.inputTitle{
+    width: 80%;
+}
+.saveBtn{
+    float: right;
+}
+
+.notify{
+    width: 100%;
+    text-align: center;
+    color: red;
+    padding-bottom: 10px;
+}
+
+.notifyIco{
+    color: red;
+    padding-right: 5px;
+}

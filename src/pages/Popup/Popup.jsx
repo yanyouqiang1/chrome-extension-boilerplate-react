@@ -28,6 +28,7 @@ const items = [
     getItem('记录工具', 'sub2', <ClockCircleOutlined />, [
         getItem('Fetch管理', 'myfetch.html'),
         getItem('片段管理', 'fragement.html'),
+        getItem('长文本记录', 'notebook.html'),
         getItem('响应修改', 'webRequest.html'),
         getItem('文本记录', 'textRecord.html'),
     ]),

@@ -192,3 +192,16 @@ export function getStorage_requestRevise(callback) {
 export function setStorage_requestRevise(value) {
   chrome.storage.local.set({ requestRevise_key: value });
 }
+
+//######## notebooks
+const notebooks_key = "notebooks_key";
+
+export function getStorage_notebooks(callback) {
+  chrome.storage.local.get([notebooks_key], result => {
+    callback(result.notebooks_key);
+  });
+}
+
+export function setStorage_notebooks(value) {
+  chrome.storage.local.set({ notebooks_key: value });
+}

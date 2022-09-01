@@ -47,6 +47,7 @@ var options = {
         yml: path.join(__dirname, 'src', 'pages', 'Function','Usual','yml', 'index.jsx'),
         fragement: path.join(__dirname, 'src', 'pages', 'Function','Record','fragement', 'index.jsx'),
         myfetch: path.join(__dirname, 'src', 'pages', 'Function','Record','myfetch', 'index.jsx'),
+        notebook: path.join(__dirname, 'src', 'pages', 'Function','Record','notebook', 'index.jsx'),
         httpstrShow: path.join(__dirname, 'src', 'pages', 'Function','Usual','httpstrShow', 'index.jsx'),
         webRequest: path.join(__dirname, 'src', 'pages', 'Function','Record','webRequest', 'index.jsx'),
         textRecord: path.join(__dirname, 'src', 'pages', 'Function','Record','textRecord', 'index.jsx'),
@@ -279,6 +280,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Record','myfetch', 'index.html'),
             filename: 'myfetch.html',
             chunks: ['myfetch'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Record','notebook', 'index.html'),
+            filename: 'notebook.html',
+            chunks: ['notebook'],
             cache: false,
         }),
         new HtmlWebpackPlugin({
