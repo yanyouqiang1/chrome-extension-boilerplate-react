@@ -41,6 +41,7 @@ const items = [
     ]),
     getItem('三方集成', 'sub4', <ApiOutlined />, [
         getItem('谷歌翻译', 'https://translate.google.cn/'),
+        getItem('有道翻译', 'https://fanyi.youdao.com/'),
     ]),
 ]; // submenu keys of first level
 
