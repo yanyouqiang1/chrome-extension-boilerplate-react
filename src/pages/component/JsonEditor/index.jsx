@@ -8,7 +8,7 @@ const MonacoEditor = (props) => {
     const {
         language='json',
         value,
-        height,
+        height="40vh",
         onMount=null,
         onChange=null,
         onValidate=null

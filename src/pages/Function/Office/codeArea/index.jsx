@@ -6,9 +6,10 @@ import { Button, Card, Col, Collapse, List, message, Modal, notification, Row, T
 import TextEditor from "../../../component/TextEditor";
 import "./index.css";
 import Search from "antd/es/input/Search";
-import { getStorage_notebooks, setStorage_notebooks } from "../../chromeCommon";
+import { getStorage_codeArea, setStorage_codeArea } from "../../chromeCommon";
 import randomstring from "rdm-str";
 import { ExclamationCircleOutlined, ExclamationOutlined } from "@ant-design/icons";
+import MonacoEditor from "../../../component/JsonEditor";
 
 const { Panel } = Collapse;
 
@@ -29,7 +30,7 @@ const Notebook = () => {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    getStorage_notebooks(datas => {
+    getStorage_codeArea(datas => {
       datas = datas ? datas : initData;
       setNoteBooks(datas);
 
@@ -45,7 +46,7 @@ const Notebook = () => {
         assign[index].content = content;
       }
     });
-    setStorage_notebooks(assign);
+    setStorage_codeArea(assign);
     setNoteBooks(assign);
     message.success("保存成功");
 
@@ -66,7 +67,7 @@ const Notebook = () => {
         assign.splice(index, 1);
       }
     });
-    setStorage_notebooks(assign);
+    setStorage_codeArea(assign);
     setNoteBooks(assign);
     message.success("删除成功");
   };
@@ -78,7 +79,7 @@ const Notebook = () => {
     }
     let assign = Object.assign([], notebooks);
     assign.unshift(item)
-    setStorage_notebooks(assign);
+    setStorage_codeArea(assign);
     setNoteBooks(assign);
     message.success("新建成功");
 
@@ -112,9 +113,9 @@ const Notebook = () => {
               }} />
               <Button className="saveBtn" type={"primary"} onClick={saveItem}>save</Button>
             </p>
-            <TextEditor value={content} onChange={(html) => {
-              setContent(html);
-            }} />
+            <MonacoEditor value={content} onChange={(value) => {
+              setContent(value);
+            }} height="100vh"/>
           </Col>
         </Row>
       </Card>

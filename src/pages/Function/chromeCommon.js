@@ -205,3 +205,16 @@ export function getStorage_notebooks(callback) {
 export function setStorage_notebooks(value) {
   chrome.storage.local.set({ notebooks_key: value });
 }
+
+//######## notebooks
+const codeArea_key = "codeArea_key";
+
+export function getStorage_codeArea(callback) {
+  chrome.storage.local.get([codeArea_key], result => {
+    callback(result.codeArea_key);
+  });
+}
+
+export function setStorage_codeArea(value) {
+  chrome.storage.local.set({ codeArea_key: value });
+}
