@@ -50,7 +50,6 @@ var options = {
         notebook: path.join(__dirname, 'src', 'pages', 'Function','Record','notebook', 'index.jsx'),
         httpstrShow: path.join(__dirname, 'src', 'pages', 'Function','Usual','httpstrShow', 'index.jsx'),
         webRequest: path.join(__dirname, 'src', 'pages', 'Function','Record','webRequest', 'index.jsx'),
-        textRecord: path.join(__dirname, 'src', 'pages', 'Function','Record','textRecord', 'index.jsx'),
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
         filediff: path.join(__dirname, 'src', 'pages', 'Function','Usual','filediff', 'index.jsx'),
         awk: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.jsx'),
@@ -286,12 +285,6 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Record','notebook', 'index.html'),
             filename: 'notebook.html',
             chunks: ['notebook'],
-            cache: false,
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'pages', 'Function','Record','textRecord', 'index.html'),
-            filename: 'textRecord.html',
-            chunks: ['textRecord'],
             cache: false,
         }),
          new HtmlWebpackPlugin({

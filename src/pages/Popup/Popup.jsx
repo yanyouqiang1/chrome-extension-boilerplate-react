@@ -30,7 +30,6 @@ const items = [
         getItem('片段管理', 'fragement.html'),
         getItem('长文本记录', 'notebook.html'),
         getItem('响应修改', 'webRequest.html'),
-        getItem('文本记录', 'textRecord.html'),
     ]),
     getItem('常用功能', 'sub3', <FunctionOutlined />, [
         getItem('YAML/JSON工具', 'yml.html'),
