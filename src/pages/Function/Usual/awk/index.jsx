@@ -2,7 +2,7 @@ import {render} from "react-dom";
 import React, {useEffect, useState} from "react";
 import {Button, Card, Col, message, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import MonacoEditor from "../../../component/JsonEditor";
+import MonacoEditor from "../../../component/MonacoEditor";
 import 'antd/dist/antd.css';
 import './index.css'
 import {getStorage_awk, setStorage_awk} from "../../chromeCommon";

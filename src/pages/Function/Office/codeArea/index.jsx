@@ -9,7 +9,7 @@ import Search from "antd/es/input/Search";
 import { getStorage_codeArea, setStorage_codeArea } from "../../chromeCommon";
 import randomstring from "rdm-str";
 import { ExclamationCircleOutlined, ExclamationOutlined } from "@ant-design/icons";
-import MonacoEditor from "../../../component/JsonEditor";
+import MonacoEditor from "../../../component/MonacoEditor";
 
 const { Panel } = Collapse;
 

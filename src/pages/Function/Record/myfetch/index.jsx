@@ -5,7 +5,7 @@ import {getStorage_fetch, setStorage_fetch} from "../../chromeCommon";
 import {Button, Col, Collapse, message, Modal, Row} from "antd";
 import ReactJson from "react-json-view";
 import "./index.css";
-import MonacoEditor from "../../../component/JsonEditor";
+import MonacoEditor from "../../../component/MonacoEditor";
 import jsonFormat from 'json-format'
 
 
