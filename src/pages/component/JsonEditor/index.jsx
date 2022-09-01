@@ -4,7 +4,7 @@ import * as monaco from "monaco-editor";
 
 loader.config({ monaco });
 
-const JsonEditor = (props) => {
+const MonacoEditor = (props) => {
     const {
         language='json',
         value,
@@ -24,4 +24,4 @@ const JsonEditor = (props) => {
     );
 }
 
-export default JsonEditor
+export default MonacoEditor

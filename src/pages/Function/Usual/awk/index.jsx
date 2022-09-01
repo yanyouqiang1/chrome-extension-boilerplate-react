@@ -2,7 +2,7 @@ import {render} from "react-dom";
 import React, {useEffect, useState} from "react";
 import {Button, Card, Col, message, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import JsonEditor from "../../../component/JsonEditor";
+import MonacoEditor from "../../../component/JsonEditor";
 import 'antd/dist/antd.css';
 import './index.css'
 import {getStorage_awk, setStorage_awk} from "../../chromeCommon";
@@ -124,8 +124,8 @@ const Awk = () => {
                     }>
                         <Row>
                             <Col span={18}>
-                                <JsonEditor height="40vh" language="javascript" value={evalStr}
-                                            onChange={evalStrChange}/>
+                                <MonacoEditor height="40vh" language="javascript" value={evalStr}
+                                              onChange={evalStrChange}/>
                             </Col>
                             <Col span={6} className="templateCol">
                                 {awkTemplates.map(template => <>
