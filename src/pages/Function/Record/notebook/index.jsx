@@ -62,7 +62,7 @@ const Notebook = () => {
     }
     let assign = Object.assign([], notebooks);
     assign.forEach((item, index) => {
-      if (item.key == selectKey) {
+      if (item.key == item.key) {
         assign.splice(index, 1);
       }
     });
