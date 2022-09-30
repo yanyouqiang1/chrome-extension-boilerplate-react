@@ -41,7 +41,7 @@ const RecordItem = (props) => {
         }
     }
     return (
-        <Col span={8} style={{marginBottom: 5}}>
+        <Col span={24} style={{marginBottom: 5}}>
             <Card style={{borderColor: "green"}}
                   title={
                       <Popover content={dataSource.createTime} trigger="hover">
