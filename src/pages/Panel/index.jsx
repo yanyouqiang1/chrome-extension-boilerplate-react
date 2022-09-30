@@ -69,7 +69,7 @@ const MyPanel = () => {
                         >
                             <List.Item.Meta
                                 avatar={<Typography.Text>{index + 1}</Typography.Text>}
-                                title={entry.request.url.substring(0,80)}
+                                title={entry.request.url}
                             />
                         </List.Item>
                     )}

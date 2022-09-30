@@ -50,7 +50,10 @@ export default () => {
             title: "内容",
             dataIndex: "content",
             valueType: "textarea",
-            width: "60%"
+            width: "60%",
+            render: text => (
+                <pre style={{width: "100%"}}>{text}</pre>
+            )
         },
         {
             title: "创建时间",
