@@ -38,6 +38,7 @@ const items = [
         getItem('文件比对', 'filediff.html'),
         getItem('html渲染', 'httpstrShow.html'),
         getItem('单行文本处理', 'awk.html'),
+        getItem('密码生成', 'password.html'),
 
     ]),
     getItem('三方集成', 'sub4', <ApiOutlined />, [

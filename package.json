@@ -23,6 +23,7 @@
     "datetime-machine": "^1.0.8",
     "dayjs": "^1.11.4",
     "diff": "^5.1.0",
+    "generate-password": "^1.7.0",
     "jquery": "^3.6.0",
     "json-format": "^1.0.1",
     "rdm-str": "^1.0.1",
