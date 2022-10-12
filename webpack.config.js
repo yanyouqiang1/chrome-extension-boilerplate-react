@@ -52,7 +52,6 @@ var options = {
         httpstrShow: path.join(__dirname, 'src', 'pages', 'Function','Usual','httpstrShow', 'index.jsx'),
         webRequest: path.join(__dirname, 'src', 'pages', 'Function','Record','webRequest', 'index.jsx'),
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
-        password: path.join(__dirname, 'src', 'pages', 'Function','Usual','password', 'index.jsx'),
         filediff: path.join(__dirname, 'src', 'pages', 'Function','Usual','filediff', 'index.jsx'),
         awk: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
@@ -317,12 +316,6 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Usual','httpstrShow', 'index.html'),
             filename: 'httpstrShow.html',
             chunks: ['httpstrShow'],
-            cache: false,
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','password', 'index.html'),
-            filename: 'password.html',
-            chunks: ['password'],
             cache: false,
         }),
         new HtmlWebpackPlugin({
