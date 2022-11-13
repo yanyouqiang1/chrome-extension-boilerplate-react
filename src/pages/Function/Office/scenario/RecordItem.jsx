@@ -1,15 +1,22 @@
 import {Button, Card, Col, Collapse, Input, List, Popover} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {useEffect, useState} from "react";
-import {createUrls} from "../../chromeCommon";
+import {createUrls, getCurrentTabsNoActive} from "../../chromeCommon";
+import ModalJson from "../../../component/ModalJson";
 
 
 const RecordItem = (props) => {
-    const {dataSource, saveRecord, deleteRecord, linkDelete} = props
+    const {dataSource, saveRecord, deleteRecord, linkDelete,linkadd} = props
     // const [data, setData] = useState({})
 
     const [rData, setRData] = useState(dataSource)
+    const [tabs,setTabs] = useState([])
 
+    useEffect(()=>{
+        getCurrentTabsNoActive().then(tabs => {
+           setTabs(tabs)
+        })
+    },[])
 
     const remarkChange = (e) => {
         let assign = Object.assign({},rData);
@@ -40,6 +47,27 @@ const RecordItem = (props) => {
             linkDelete(dataSource.key, index)
         }
     }
+
+    const SELECT_TABS_SCHEMA = ()=> {
+        const valueEnum = {}
+        tabs.forEach((tab, index) => {
+            valueEnum[index] = {
+                text: tab.title
+            }
+        })
+        return [
+            {
+                title: '选择链接',
+                dataIndex: 'tabSelect',
+                valueType: 'select',
+                valueEnum,
+            },
+        ]
+    }
+
+    const tabSelect = (result) => {
+        linkadd(dataSource.key,tabs[result.tabSelect])
+    }
     return (
         <Col span={24} style={{marginBottom: 5}}>
             <Card style={{borderColor: "green"}}
@@ -53,6 +81,9 @@ const RecordItem = (props) => {
                           <Button danger type="text" onClick={rdelete}>删除</Button>
                           <Button type="link" onClick={save}>保存</Button>
                           <Button type="link" onClick={openall}>打开全部</Button>
+                          <ModalJson trigger={<Button type={"primary"}>添加Tab</Button>}
+                                     onFinish={tabSelect}
+                                     schema={SELECT_TABS_SCHEMA()}/>
                       </>
                   }>
                 <List

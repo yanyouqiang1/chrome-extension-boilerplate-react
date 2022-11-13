@@ -57,15 +57,15 @@ const Scenario = () => {
 
                 setStorage_scenario(records);
                 setDatas(records)
-                message.success("新建",3)
+                message.success("新建", 3)
             })
 
         })
     }
     const saveRecord = (item) => {
-        let {key,title,remark,links} = item
+        let {key, title, remark, links} = item
 
-        let assign = Object.assign([],datas);
+        let assign = Object.assign([], datas);
 
         assign.map((data, index) => {
             if (data.key == key) {
@@ -110,17 +110,32 @@ const Scenario = () => {
             setDatas(assign)
         }
     }
-    const linkDelete=(key,linkIndex)=>{
+    const linkDelete = (key, linkIndex) => {
         let assign = Object.assign([], datas);
         assign.map((data, index) => {
             if (data.key == key) {
-                assign[index].links.splice(linkIndex,1)
+                assign[index].links.splice(linkIndex, 1)
             }
         })
 
         setDatas(assign)
         setStorage_scenario(assign)
         message.success('删除成功', 3);
+    }
+
+    const linkadd = (key, link) => {
+        datas.map(it=>{
+            if (it.key==key){
+                let add={
+                    name: link.title,
+                    url: link.url
+                }
+                it.links.unshift(add)
+            }
+        })
+        setDatas(datas)
+        setStorage_scenario(datas)
+        message.success("suc")
     }
     return (
         <div className="site-card-wrapper" style={{width: '80%', margin: "auto"}}>
@@ -141,7 +156,7 @@ const Scenario = () => {
                 {
                     datas.map(data =>
                         <RecordItem key={data.key} dataSource={data} saveRecord={saveRecord}
-                                    deleteRecord={deleteRecord} linkDelete={linkDelete}/>
+                                    deleteRecord={deleteRecord} linkDelete={linkDelete} linkadd={linkadd}/>
                     )
                 }
 
