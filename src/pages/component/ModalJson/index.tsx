@@ -248,7 +248,7 @@ const columns: ProFormColumnsType<DataItem>[] = [
     },
 ];
 
-const JsonInput = (
+const ModalJson = (
     {
         trigger = (<a>点击我</a>),
         onFinish = (data: any) => console.log(data),
@@ -267,10 +267,11 @@ const JsonInput = (
             }}
             onFinish={async (values) => {
                 onFinish(values)
+                return true
             }}
             columns={schema}
         />
     );
 };
 
-export default JsonInput;
+export default ModalJson;

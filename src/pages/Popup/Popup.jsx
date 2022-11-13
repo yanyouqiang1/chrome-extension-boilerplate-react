@@ -25,6 +25,7 @@ const items = [
         getItem('ToDo列表', 'todolist.html'),
         getItem('通知列表', 'notify.html'),
         getItem('代码区域', 'codeArea.html'),
+        getItem('网站管理', '网站管理'),
     ]),
     getItem('记录工具', 'sub2', <ClockCircleOutlined />, [
         getItem('Fetch管理', 'myfetch.html'),

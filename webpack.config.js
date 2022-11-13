@@ -42,6 +42,7 @@ var options = {
         contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
         tabs: path.join(__dirname, 'src', 'pages', 'Function','Office','tabs', 'index.jsx'),
         notify: path.join(__dirname, 'src', 'pages', 'Function','Office','notify', 'index.jsx'),
+        link: path.join(__dirname, 'src', 'pages', 'Function','Office','link', 'index.jsx'),
         codeArea: path.join(__dirname, 'src', 'pages', 'Function','Office','codeArea', 'index.jsx'),
         todolist: path.join(__dirname, 'src', 'pages', 'Function','Office','todolist', 'index.jsx'),
         scenario: path.join(__dirname, 'src', 'pages', 'Function','Office','scenario', 'index.jsx'),
@@ -250,6 +251,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Office','notify', 'index.html'),
             filename: 'notify.html',
             chunks: ['notify'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Office','link', 'index.html'),
+            filename: 'link.html',
+            chunks: ['link'],
             cache: false,
         }),
         new HtmlWebpackPlugin({
