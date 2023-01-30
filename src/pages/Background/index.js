@@ -2,6 +2,7 @@ import {
     getCurrentTab, getStorage_requestRevise,
 } from "../Function/chromeCommon";
 import {freshNotify} from "../Function/alarmNotify";
+import {pickJsonFromText} from "./JSONUtil";
 
 
 //消息格式
@@ -80,7 +81,32 @@ function freshRequestRule(){
 
     })
 }
+const PICK_JSON='PICK-JSON'
+chrome.contextMenus.create({
+    type: 'normal',
+    title: 'Pick JSON',
+    id: PICK_JSON,
+    contexts: ['all'],
+}, function () {
+    console.log('contextMenus are create.');
+});
 
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    switch (info.menuItemId) {
+        case PICK_JSON:
+            getCurrentTab().then(tabs=>{
+                let selectionText = info.selectionText;
+                let pickJson = pickJsonFromText(selectionText);
+                const message = {
+                    type: "parseJson",
+                    data: pickJson
+                }
+                chrome.tabs.sendMessage(tabs[0].id, message);
+            })
+            break
+
+    }
+})
 
 // freshRequestRule();
 

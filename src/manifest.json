@@ -34,7 +34,8 @@
     "alarms",
     "notifications",
     "cookies",
-    "webRequest"
+    "webRequest",
+    "contextMenus"
   ],
   "sandbox": {
     "pages": ["sandbox.html"]
