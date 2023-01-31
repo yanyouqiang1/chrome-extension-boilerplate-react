@@ -39,6 +39,7 @@ const items = [
         getItem('文件比对', 'filediff.html'),
         getItem('html渲染', 'httpstrShow.html'),
         getItem('单行文本处理', 'awk.html'),
+        getItem('JSON展示', 'jsonshow.html'),
     ]),
     getItem('三方集成', 'sub4', <ApiOutlined />, [
         getItem('谷歌翻译', 'https://translate.google.cn/'),

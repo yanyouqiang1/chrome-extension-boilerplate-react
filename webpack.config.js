@@ -55,6 +55,7 @@ var options = {
         base64: path.join(__dirname, 'src', 'pages', 'Function','Usual','base64', 'index.jsx'),
         filediff: path.join(__dirname, 'src', 'pages', 'Function','Usual','filediff', 'index.jsx'),
         awk: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.jsx'),
+        jsonshow: path.join(__dirname, 'src', 'pages', 'Function','Usual','jsonshow', 'index.jsx'),
         devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
         panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
     },
@@ -317,6 +318,12 @@ var options = {
             template: path.join(__dirname, 'src', 'pages', 'Function','Usual','awk', 'index.html'),
             filename: 'awk.html',
             chunks: ['awk'],
+            cache: false,
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'pages', 'Function','Usual','jsonshow', 'index.html'),
+            filename: 'jsonshow.html',
+            chunks: ['jsonshow'],
             cache: false,
         }),
         new HtmlWebpackPlugin({

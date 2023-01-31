@@ -1,9 +1,7 @@
 import {
-    getCurrentTab, getStorage_requestRevise,
+    getCurrentTab, getCurrentTabsNoActive, getStorage_requestRevise,
 } from "../Function/chromeCommon";
 import {freshNotify} from "../Function/alarmNotify";
-import {pickJsonFromText} from "./JSONUtil";
-
 
 //消息格式
 /*const messageFormat = {
@@ -81,30 +79,81 @@ function freshRequestRule(){
 
     })
 }
-const PICK_JSON='PICK-JSON'
+const PICK_JSON='pick_json'
+const APPEND_TEXT='append_text'
 chrome.contextMenus.create({
     type: 'normal',
-    title: 'Pick JSON',
+    title: '挑选JSON',
     id: PICK_JSON,
     contexts: ['all'],
 }, function () {
     console.log('contextMenus are create.');
 });
+chrome.contextMenus.create({
+    type: 'normal',
+    title: '追加文本',
+    id: APPEND_TEXT,
+    contexts: ['all'],
+}, function () {
+    console.log('contextMenus are create.');
+});
+
+var lastAppendJsonShow;
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     switch (info.menuItemId) {
         case PICK_JSON:
-            getCurrentTab().then(tabs=>{
-                let selectionText = info.selectionText;
-                let pickJson = pickJsonFromText(selectionText);
-                const message = {
-                    type: "parseJson",
-                    data: pickJson
-                }
-                chrome.tabs.sendMessage(tabs[0].id, message);
+            const message = {
+                type: "selectText",
+                data: info.selectionText
+            }
+            //创建tab
+            chrome.tabs.create({
+                url: "jsonshow.html"
+            }).then(tab=>{
+                //延迟1秒发送
+                setTimeout(function() {
+                    chrome.tabs.sendMessage(tab.id, message);
+                }, 1* 1000);
+
             })
             break
+        case APPEND_TEXT:
+            //查找打开的标签页中是否有无jsonshow页面
+            //如果有，以上次保存的lastJsonShow的为准。没有则创建
+            getCurrentTabsNoActive().then(tabs=>{
+                //将要发送数据
+                //查找打开的标签页中是否有无jsonshow页面
+                let filter = tabs.map(tab=>tab.url).filter(url=>url.includes("jsonshow.html?append=1"));
+                if (filter.length>0){
+                    //存在
+                    const message = {
+                        type: "appendText",
+                        data: info.selectionText
+                    }
+                    chrome.tabs.sendMessage(lastAppendJsonShow.id, message);
+                }else{
+                    //不存在
+                    const message = {
+                        type: "appendText",
+                        data: info.selectionText
+                    }
+                    //创建tab
+                    chrome.tabs.create({
+                        url: "jsonshow.html?append=1"
+                    }).then(tab=>{
+                        //延迟1秒发送
+                        setTimeout(function() {
+                            lastAppendJsonShow = tab
+                            chrome.tabs.sendMessage(tab.id, message);
+                        }, 1* 1000);
 
+                    })
+                }
+
+            })
+
+            break
     }
 })
 
