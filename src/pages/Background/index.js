@@ -1,4 +1,6 @@
 import {
+    createUrls,
+    getConfig,
     getCurrentTab, getCurrentTabsNoActive, getStorage_requestRevise,
 } from "../Function/chromeCommon";
 import {freshNotify} from "../Function/alarmNotify";
@@ -81,6 +83,8 @@ function freshRequestRule(){
 }
 const PICK_JSON='pick_json'
 const APPEND_TEXT='append_text'
+const BEIDOU='BEIDOU'
+const CMDB='CMDB'
 chrome.contextMenus.create({
     type: 'normal',
     title: '挑选JSON',
@@ -93,6 +97,22 @@ chrome.contextMenus.create({
     type: 'normal',
     title: '追加文本',
     id: APPEND_TEXT,
+    contexts: ['all'],
+}, function () {
+    console.log('contextMenus are create.');
+});
+chrome.contextMenus.create({
+    type: 'normal',
+    title: '北斗搜索',
+    id: BEIDOU,
+    contexts: ['all'],
+}, function () {
+    console.log('contextMenus are create.');
+});
+chrome.contextMenus.create({
+    type: 'normal',
+    title: 'CMDB搜索',
+    id: CMDB,
     contexts: ['all'],
 }, function () {
     console.log('contextMenus are create.');
@@ -152,8 +172,21 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                 }
 
             })
-
             break
+        case BEIDOU:
+            getConfig(config=>{
+                let url = `${config['beidou']}?append=${info.selectionText}`
+                createUrls([url])
+            })
+            break
+
+        case CMDB:
+            getConfig(config=>{
+                let url = `${config['cmdb']}?append=${info.selectionText}`
+                createUrls([url])
+            })
+            break
+
     }
 })
 

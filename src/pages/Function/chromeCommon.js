@@ -218,3 +218,17 @@ export function getStorage_codeArea(callback) {
 export function setStorage_codeArea(value) {
   chrome.storage.local.set({ codeArea_key: value });
 }
+
+
+//######## options_config
+const config_key = "config_key";
+
+export function getConfig(callback) {
+  chrome.storage.local.get([config_key], result => {
+    callback(result.config_key);
+  });
+}
+
+export function setConfig_key(value) {
+  chrome.storage.local.set({ config_key: value });
+}
