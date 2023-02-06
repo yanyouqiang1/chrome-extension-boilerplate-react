@@ -182,11 +182,10 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
         case CMDB:
             getConfig(config=>{
-                let url = `${config['cmdb']}?append=${info.selectionText}`
+                let url = config['cmdb'].replace('{keyword}',info.selectionText)
                 createUrls([url])
             })
             break
-
     }
 })
 
