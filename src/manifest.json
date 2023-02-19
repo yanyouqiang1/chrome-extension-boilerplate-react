@@ -34,7 +34,7 @@
     "alarms",
     "notifications",
     "cookies",
-    "webRequest",
+    "declarativeNetRequest",
     "contextMenus"
   ],
   "sandbox": {

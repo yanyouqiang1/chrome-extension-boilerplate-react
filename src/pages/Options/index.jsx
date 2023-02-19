@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {render} from 'react-dom';
-import {Button, Input, message, Upload} from "antd";
+import {Button, Collapse, Input, message, Upload} from "antd";
 import 'antd/dist/antd.css';
 import {UploadOutlined} from "@ant-design/icons";
 import {
@@ -10,6 +10,9 @@ import {
     setConfig_key,
     updateAllStorageData
 } from "../Function/chromeCommon";
+import CollapsePanel from "antd/es/collapse/CollapsePanel";
+import {BetaSchemaForm} from "@ant-design/pro-components";
+import UrlReviseEdit from "./urlReviseEdit";
 
 const Options = () => {
 
@@ -82,23 +85,46 @@ const Options = () => {
         })
     }
 
+    const freshWebRevise =()=>{
+        chrome.runtime.sendMessage({
+            type: "freshWebRevise"
+        })
+        message.success("刷新成功")
+    }
     return (
         <>
-            <Upload {...props}>
-                <Button style={{width: 100, height: 100}} icon={<UploadOutlined/>}>导入</Button>
-            </Upload>
+            <Collapse defaultActiveKey={['1']}>
+                <CollapsePanel header="导入导出" key="1">
+                    <Upload {...props}>
+                        <Button style={{width: 100, height: 100}} icon={<UploadOutlined/>}>导入</Button>
+                    </Upload>
 
-            <Button style={{width: 100, height: 100}} onClick={exportConfig}>导出</Button>
+                    <Button style={{width: 100, height: 100}} onClick={exportConfig}>导出</Button>
+                </CollapsePanel>
+                <CollapsePanel key={"2"} header={"搜索路径设置"}>
+                    <Input value={beidouPath} onChange={e => {
+                        setBeidouPath(e.target.value)
+                    }}/>
+                    <Button onClick={btnBeidouSet}>设置北斗搜索路径</Button>
 
-            <Input value={beidouPath} onChange={e => {
-                setBeidouPath(e.target.value)
-            }}/>
-            <Button onClick={btnBeidouSet}>设置北斗搜索路径</Button>
+                    <Input value={cmdbPath} onChange={e => {
+                        setCmdbPath(e.target.value)
+                    }}/>
+                    <Button onClick={btnCmdbSet}>设置CMDB搜索路径</Button>
+                </CollapsePanel>
+                <CollapsePanel key={'3'} header={"自定义url转发、返回"}>
+                    <div style={{float: "right"}}>
+                        <font color={"red"}>转发到的地址需要加 https? 等前缀</font>
+                        <Button onClick={freshWebRevise} type={"primary"}>刷新URL规则</Button>
+                    </div>
 
-            <Input value={cmdbPath} onChange={e => {
-                setCmdbPath(e.target.value)
-            }}/>
-            <Button onClick={btnCmdbSet}>设置CMDB搜索路径</Button>
+                    <UrlReviseEdit />
+                </CollapsePanel>
+            </Collapse>
+
+
+
+
         </>
     )
 }

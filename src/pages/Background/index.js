@@ -4,6 +4,7 @@ import {
     getCurrentTab, getCurrentTabsNoActive, getStorage_requestRevise,
 } from "../Function/chromeCommon";
 import {freshNotify} from "../Function/alarmNotify";
+import {requestRevise} from "./requestRevise";
 
 //消息格式
 /*const messageFormat = {
@@ -55,36 +56,10 @@ chrome.runtime.onStartup.addListener(() => {
     console.log("开启闹钟");
 })
 
-
-chrome.runtime.onMessage.addListener((request, sender, res) => {
-    /*
-    request = {
-        type: "",
-        data: ""
-    }*/
-    if (request.type == 'requestRuleFresh') {
-        freshRequestRule();
-        console.log("刷新规则")
-    }
-})
-
-function freshRequestRule(){
-    getStorage_requestRevise(datas=>{
-        console.log("webRequest启动")
-        datas = datas || []
-        datas.forEach(item=>{
-            chrome.webRequest.onCompleted.addListener((_) => {
-                console.log("触发了",item.url)
-                return item.data
-            }, item.url)
-        })
-
-    })
-}
-const PICK_JSON='pick_json'
-const APPEND_TEXT='append_text'
-const BEIDOU='BEIDOU'
-const CMDB='CMDB'
+const PICK_JSON = 'pick_json'
+const APPEND_TEXT = 'append_text'
+const BEIDOU = 'BEIDOU'
+const CMDB = 'CMDB'
 chrome.contextMenus.create({
     type: 'normal',
     title: '挑选JSON',
@@ -130,29 +105,29 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             //创建tab
             chrome.tabs.create({
                 url: "jsonshow.html"
-            }).then(tab=>{
+            }).then(tab => {
                 //延迟1秒发送
-                setTimeout(function() {
+                setTimeout(function () {
                     chrome.tabs.sendMessage(tab.id, message);
-                }, 1* 1000);
+                }, 1 * 1000);
 
             })
             break
         case APPEND_TEXT:
             //查找打开的标签页中是否有无jsonshow页面
             //如果有，以上次保存的lastJsonShow的为准。没有则创建
-            getCurrentTabsNoActive().then(tabs=>{
+            getCurrentTabsNoActive().then(tabs => {
                 //将要发送数据
                 //查找打开的标签页中是否有无jsonshow页面
-                let filter = tabs.map(tab=>tab.url).filter(url=>url.includes("jsonshow.html?append=1"));
-                if (filter.length>0){
+                let filter = tabs.map(tab => tab.url).filter(url => url.includes("jsonshow.html?append=1"));
+                if (filter.length > 0) {
                     //存在
                     const message = {
                         type: "appendText",
                         data: info.selectionText
                     }
                     chrome.tabs.sendMessage(lastAppendJsonShow.id, message);
-                }else{
+                } else {
                     //不存在
                     const message = {
                         type: "appendText",
@@ -161,12 +136,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                     //创建tab
                     chrome.tabs.create({
                         url: "jsonshow.html?append=1"
-                    }).then(tab=>{
+                    }).then(tab => {
                         //延迟1秒发送
-                        setTimeout(function() {
+                        setTimeout(function () {
                             lastAppendJsonShow = tab
                             chrome.tabs.sendMessage(tab.id, message);
-                        }, 1* 1000);
+                        }, 1 * 1000);
 
                     })
                 }
@@ -174,22 +149,21 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             })
             break
         case BEIDOU:
-            getConfig(config=>{
+            getConfig(config => {
                 let url = `${config['beidou']}?append=${info.selectionText}`
                 createUrls([url])
             })
             break
 
         case CMDB:
-            getConfig(config=>{
-                let url = config['cmdb'].replace('{keyword}',info.selectionText)
+            getConfig(config => {
+                let url = config['cmdb'].replace('{keyword}', info.selectionText)
                 createUrls([url])
             })
             break
     }
 })
 
-// freshRequestRule();
-
-
+//请求拦截
+requestRevise()
 
