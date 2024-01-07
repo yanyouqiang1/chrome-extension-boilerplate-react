@@ -1,45 +1,50 @@
-.App {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  text-align: center;
-  height: 100%;
-  padding: 10px;
-  background-color: #282c34;
+/* popup.css */
+
+.popup-container {
+  width: 300px;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 30vmin;
-  pointer-events: none;
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.App-header {
-  height: 100%;
+ul.record-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.record-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+span.group-name {
+  flex-grow: 1;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button.open-all-button {
+  background-color: #28a745;
+  margin-right: 10px;
+}
+
+button.delete-button {
+  background-color: #dc3545;
 }
