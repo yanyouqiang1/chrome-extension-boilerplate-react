@@ -1,8 +1,10 @@
-import { Button, List, Modal, message } from 'antd';
+import { Button, Collapse, List, Modal, message } from 'antd';
+import CollapsePanel from 'antd/es/collapse/CollapsePanel';
 import Search from 'antd/es/input/Search';
-import _, { size } from 'lodash';
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import store from 'store';
+
 const initData = [
   {
     name: 'xxxST',
@@ -67,6 +69,13 @@ const Popup = () => {
         },
       });
     }
+    //校验重复name
+    const result = _.some(data, { name: value });
+    if (result) {
+      message.error('名称重复！');
+      return;
+    }
+
     chrome.tabs.query({ currentWindow: true }, function (tabs) {
       var links = tabs.map(function (tab) {
         return {
@@ -103,6 +112,32 @@ const Popup = () => {
     });
   }
 
+  function showRecord(item) {
+    Modal.info({
+      title: item.name,
+      content: (
+        <>
+          <List
+            dataSource={item.links}
+            renderItem={(item, index) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={<a href={item.url}>{item.title}</a>}
+                  description={_.truncate(item.url, {
+                    length: 20,
+                    omission: '...',
+                  })}
+                />
+              </List.Item>
+            )}
+          />
+        </>
+      ),
+      maskClosable: true,
+      okButtonProps: { style: { display: 'none' } },
+    });
+  }
+
   return (
     <List
       size="small"
@@ -119,7 +154,7 @@ const Popup = () => {
       }
       bordered
       dataSource={data}
-      pagination={{ size: 5 }}
+      pagination={{ defaultPageSize: 10, total: data.size }}
       renderItem={(item) => (
         <List.Item
           actions={[
@@ -131,7 +166,7 @@ const Popup = () => {
             </Button>,
           ]}
         >
-          {item.name}
+          <span onClick={() => showRecord(item)}>{item.name}</span>
         </List.Item>
       )}
     />
