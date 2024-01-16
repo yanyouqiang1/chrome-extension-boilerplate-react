@@ -1,92 +1,141 @@
-// 引入store.js
+import { Button, List, Modal, message } from 'antd';
+import Search from 'antd/es/input/Search';
+import _, { size } from 'lodash';
+import React, { useState, useEffect } from 'react';
 import store from 'store';
-import React from 'react';
-import './Popup.css';
-// 定义组件
-class Popup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      groupName: '',
-      links: [],
-      dataList: [],
-    };
+const initData = [
+  {
+    name: 'xxxST',
+    links: [
+      {
+        title: '百度',
+        url: 'www.baidu.com',
+      },
+      {
+        title: '百度',
+        url: 'www.baidu.com',
+      },
+    ],
+  },
+  {
+    name: 'xxxUAT',
+    links: [
+      {
+        title: '百度',
+        url: 'www.baidu.com',
+      },
+      {
+        title: '百度',
+        url: 'www.baidu.com',
+      },
+    ],
+  },
+];
+
+const saveKey = 'tab-tasks';
+
+const Popup = () => {
+  const [data, setData] = useState(initData);
+
+  useEffect(() => {
+    const saveData = store.get(saveKey) || initData;
+    setData(saveData);
+  }, []);
+
+  function freshData() {
+    return Object.assign(data);
   }
 
-  handleInputChange = (event) => {
-    this.setState({ groupName: event.target.value });
-  };
+  function saveData(data) {
+    store.set(saveKey, data);
+  }
+  const createRecord = (value) => {
+    function onRecordSuccess() {
+      Modal.confirm({
+        title: '记录成功',
+        content: '关闭所有标签页',
+        onOk() {
+          chrome.tabs.query({ currentWindow: true }, function (tabs) {
+            // 关闭当前所有标签页
+            for (var i = 0; i < tabs.length; i++) {
+              chrome.tabs.remove(tabs[i].id);
+            }
 
-  handleRecordClick = () => {
-    const { groupName, links } = this.state;
-    const newData = {
-      groupName,
-      links,
-    };
-    store.set(groupName, newData);
-    const dataList = Object.keys(store.getAll()).map((key) => store.get(key));
-    this.setState({ dataList, groupName: '', links: [] });
-    chrome.tabs.query({}, (tabs) => {
-      tabs.forEach((tab) => {
-        if (!tab.active) {
-          chrome.tabs.remove(tab.id);
-        }
+            // 新建一个标签页
+            chrome.tabs.create({});
+          });
+        },
       });
+    }
+    chrome.tabs.query({ currentWindow: true }, function (tabs) {
+      var links = tabs.map(function (tab) {
+        return {
+          title: tab.title,
+          url: tab.url,
+        };
+      });
+
+      const record = {
+        name: value,
+        links,
+      };
+      const freshObj = freshData();
+      freshObj.push(record);
+      setData(freshObj);
+      saveData(freshObj);
+      onRecordSuccess();
     });
   };
-
-  handleOpenAllClick = (links) => {
-    links.forEach((link) => {
-      chrome.tabs.create({ url: link.url });
+  function openAll(item) {
+    const { links } = item;
+    for (var i = 0; i < links.length; i++) {
+      chrome.tabs.create({ url: links[i].url });
+    }
+  }
+  function deleteRecord(name) {
+    Modal.confirm({
+      title: '确认删除',
+      onOk() {
+        const newObj = _.remove(freshData(), (item) => item.name !== name);
+        setData(newObj);
+        saveData(newObj);
+      },
     });
-  };
-
-  handleDeleteClick = (groupName) => {
-    store.remove(groupName);
-    const dataList = Object.keys(store.getAll()).map((key) => store.get(key));
-    this.setState({ dataList });
-  };
-
-  componentDidMount() {
-    const dataList = Object.keys(store.getAll()).map((key) => store.get(key));
-    this.setState({ dataList });
   }
 
-  render() {
-    const { groupName, links, dataList } = this.state;
-
-    return (
-      <div className="popup-container">
-        <input
-          type="text"
-          value={groupName}
-          onChange={this.handleInputChange}
-          placeholder="输入组名称"
-        />
-        <button onClick={this.handleRecordClick}>记录</button>
-
-        <ul className="record-list">
-          {dataList.map((data, index) => (
-            <li key={index} className="record-item">
-              <span className="group-name">{data.groupName}</span>
-              <button
-                className="open-all-button"
-                onClick={() => this.handleOpenAllClick(data.links)}
-              >
-                打开全部
-              </button>
-              <button
-                className="delete-button"
-                onClick={() => this.handleDeleteClick(data.groupName)}
-              >
-                删除
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
+  return (
+    <List
+      size="small"
+      header={
+        <>
+          <Search
+            placeholder="添加记录"
+            allowClear
+            enterButton="记录"
+            size="large"
+            onSearch={createRecord}
+          />
+        </>
+      }
+      bordered
+      dataSource={data}
+      pagination={{ size: 5 }}
+      renderItem={(item) => (
+        <List.Item
+          actions={[
+            <Button type="primary" onClick={() => openAll(item)}>
+              打开全部
+            </Button>,
+            <Button danger type="links" onClick={() => deleteRecord(item.name)}>
+              删除
+            </Button>,
+          ]}
+        >
+          {item.name}
+        </List.Item>
+      )}
+    />
+  );
+};
 
 export default Popup;
