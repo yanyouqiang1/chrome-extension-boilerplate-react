@@ -1,5 +1,4 @@
 import { Button, Collapse, List, Modal, message } from 'antd';
-import CollapsePanel from 'antd/es/collapse/CollapsePanel';
 import Search from 'antd/es/input/Search';
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
@@ -56,6 +55,7 @@ const Popup = () => {
       Modal.confirm({
         title: '记录成功',
         content: '关闭所有标签页',
+        width: '400px',
         onOk() {
           chrome.tabs.query({ currentWindow: true }, function (tabs) {
             // 关闭当前所有标签页
@@ -88,8 +88,7 @@ const Popup = () => {
         name: value,
         links,
       };
-      const freshObj = freshData();
-      freshObj.push(record);
+      const freshObj = [record, ...data];
       setData(freshObj);
       saveData(freshObj);
       onRecordSuccess();
@@ -161,7 +160,7 @@ const Popup = () => {
             <Button type="primary" onClick={() => openAll(item)}>
               打开全部
             </Button>,
-            <Button danger type="links" onClick={() => deleteRecord(item.name)}>
+            <Button danger type="text" onClick={() => deleteRecord(item.name)}>
               删除
             </Button>,
           ]}
