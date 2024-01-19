@@ -121,7 +121,11 @@ const Popup = () => {
             renderItem={(item, index) => (
               <List.Item>
                 <List.Item.Meta
-                  title={<a href={item.url}>{item.title}</a>}
+                  title={
+                    <a onClick={() => chrome.tabs.create({ url: item.url })}>
+                      {item.title}
+                    </a>
+                  }
                   description={_.truncate(item.url, {
                     length: 20,
                     omission: '...',
